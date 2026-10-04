@@ -1,16 +1,15 @@
-// TEMPORARY MAP SETTINGS — world size, ground colours and start point.
-// The neighborhood itself is laid out in neighborhoodLayout.js.
+// TEMPORARY MAP SETTINGS — world size, backdrop colour and start point.
+// The neighborhood itself is laid out in neighborhoodLayout.js, and the base terrain in terrain.js.
 
 export const WORLD = {
   width: 2400,
-  height: 1600,
+  height: 1415,
 }
 
+// Shown outside the world, if the view is ever larger than it.
 export const GROUND = {
   backdrop: '#1d2b1f',
-  base: '#6f9a4e',
-  alternate: '#66904a',
-  tileSize: 64,
 }
 
-export const PLAYER_START = { x: 1200, y: 840 }
+// On the main road, just north of the basketball court.
+export const PLAYER_START = { x: 1230, y: 755 }

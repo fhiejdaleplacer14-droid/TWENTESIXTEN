@@ -17,6 +17,409 @@
   color: var(--text-h);
 }
 
+/* ---------------------------------------------------------------- main menu
+   The artwork is a fixed-size painting, so it gets a stage of its own aspect
+   ratio, sized to fit the window. The menu panel is positioned in percentages
+   of that stage, which is what keeps it on top of the panel painted into the
+   artwork no matter how the window is resized. */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: #2a1b10;
+}
+
+/* Fills whatever the stage does not, so there are never bare letterbox bars. */
+.menu__backdrop {
+  position: absolute;
+  inset: -4%;
+  background: url('/assets/menu_background.jpg') center / cover no-repeat;
+  filter: blur(28px) brightness(0.45) saturate(0.8);
+}
+
+.menu__stage {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  aspect-ratio: 2760 / 1504;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.menu__art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Sits over the bamboo panel in the artwork, with a little margin so no painted
+   edge shows around it. */
+.menu__panel {
+  position: absolute;
+  left: 33.5%;
+  top: 4.5%;
+  width: 33%;
+  height: 86%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 9cqw 5cqw 6cqw;
+  border: 0.9cqw solid #c08b3e;
+  border-radius: 1.2cqw;
+  background: linear-gradient(#b5422f, #c85a33 55%, #a9391f);
+  box-shadow:
+    0 0 0 0.5cqw #8a5a22,
+    0 1.5cqw 4cqw rgba(0, 0, 0, 0.5),
+    inset 0 0 3cqw rgba(0, 0, 0, 0.35);
+  container-type: inline-size;
+}
+
+/* Sizes inside the panel are in container query units, so the whole menu scales
+   with the artwork instead of jumping at breakpoints. */
+.menu__title {
+  margin: 0 0 10cqw;
+  font-size: 16cqw;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  text-align: center;
+  color: #ff9a2e;
+  background: linear-gradient(#ffd166 30%, #f07d1c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  /* paint-order keeps the stroke behind the fill, so the letters stay their full
+     weight instead of being eaten into from the outside. */
+  -webkit-text-stroke: 1cqw #23416d;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 0.5cqw 0 rgba(0, 0, 0, 0.4));
+}
+
+.menu__items {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 3cqw;
+  width: 100%;
+}
+
+.menu-button {
+  position: relative;
+  font: inherit;
+  font-size: 5.6cqw;
+  font-weight: 800;
+  line-height: 1.15;
+  padding: 2.2cqw 2cqw;
+  border: 0.5cqw solid rgba(0, 0, 0, 0.45);
+  border-radius: 1cqw;
+  color: #fff;
+  text-shadow: 0 0.35cqw 0 rgba(0, 0, 0, 0.45);
+  background: #6c6c6c;
+  cursor: pointer;
+  transition:
+    transform 90ms ease-out,
+    filter 90ms ease-out;
+}
+
+.menu-button--green {
+  background: linear-gradient(#63c452, #3f9b34);
+}
+.menu-button--blue {
+  background: linear-gradient(#3d8fe0, #2a6cb8);
+}
+.menu-button--yellow {
+  background: linear-gradient(#f9cf3f, #e0a51f);
+}
+.menu-button--orange {
+  background: linear-gradient(#f28b2a, #d4651a);
+}
+.menu-button--grey {
+  background: linear-gradient(#9b9b9b, #767676);
+}
+/* "Quit" is painted without a slab in the artwork, so it has none here either. */
+.menu-button--plain {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.menu-button:hover,
+.menu-button.is-selected {
+  filter: brightness(1.12);
+  transform: translateY(-0.3cqw);
+}
+
+.menu-button.is-selected {
+  box-shadow: 0 0 0 0.5cqw #ffe9a8;
+}
+
+/* Marks the row the arrow keys are on, standing in for the bird in the artwork. */
+.menu__items .menu-button.is-selected::before {
+  content: '';
+  position: absolute;
+  left: 2cqw;
+  top: 50%;
+  translate: 0 -50%;
+  border-style: solid;
+  border-width: 1.5cqw 0 1.5cqw 2cqw;
+  border-color: transparent transparent transparent #ffe9a8;
+}
+
+.menu-button:focus-visible {
+  outline: 0.45cqw solid #ffe9a8;
+  outline-offset: 0.3cqw;
+}
+
+/* ------------------------------------------------- menu panels (About etc.) */
+
+.menu__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  background: rgba(12, 10, 8, 0.72);
+  backdrop-filter: blur(4px);
+  animation: fade-in 160ms ease-out;
+}
+
+.menu-sheet {
+  width: min(560px, 100%);
+  max-height: min(80svh, 640px);
+  overflow-y: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 26px 28px;
+  border: 3px solid #c08b3e;
+  border-radius: 10px;
+  background: linear-gradient(#20242a, #171a1f);
+  color: #f3ead9;
+  text-align: left;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.6);
+  container-type: inline-size;
+}
+
+.menu-sheet .menu-button {
+  font-size: 17px;
+  padding: 10px 18px;
+  border-width: 2px;
+  border-radius: 7px;
+  align-self: flex-end;
+  text-shadow: none;
+}
+
+.menu-sheet .menu-button:hover {
+  transform: none;
+}
+
+.menu-sheet__title {
+  margin: 0;
+  font-size: 24px;
+  color: #ffb43f;
+}
+
+.menu-sheet__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.menu-sheet__text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.menu-sheet__note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  opacity: 0.7;
+}
+
+.menu-keys {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.menu-keys__label {
+  min-width: 170px;
+  opacity: 0.85;
+}
+
+.menu-keys__keys {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.menu-key {
+  min-width: 1.6em;
+  padding: 3px 8px;
+  border: 1px solid #6a5f49;
+  border-bottom-width: 3px;
+  border-radius: 5px;
+  background: #2c3138;
+  font: inherit;
+  font-size: 14px;
+  text-align: center;
+  color: #ffd79a;
+}
+
+.menu-keys__alt {
+  font-size: 14px;
+  opacity: 0.65;
+}
+
+.menu-role {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: 16px;
+}
+
+.menu-role__role {
+  min-width: 220px;
+  opacity: 0.7;
+}
+
+.menu-role__name {
+  color: #ffd79a;
+}
+
+.menu-setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 16px;
+}
+
+.menu-switch {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  min-width: 72px;
+  padding: 8px 16px;
+  border: 2px solid #6a5f49;
+  border-radius: 999px;
+  background: #2c3138;
+  color: #c9c2b4;
+  cursor: pointer;
+}
+
+.menu-switch--on {
+  border-color: #63c452;
+  background: #2f5a2b;
+  color: #d9f5cf;
+}
+
+.menu-switch:focus-visible {
+  outline: 2px solid #ffe9a8;
+  outline-offset: 2px;
+}
+
+/* On a narrow screen the painted panel is too small to read, so the artwork
+   becomes a plain backdrop and the menu becomes an ordinary centred card. */
+@media (max-width: 720px), (max-height: 480px) {
+  /* Only the painting is dropped. The stage stays, because the panel lives inside
+     it, and becomes a plain centring box. */
+  .menu__art {
+    display: none;
+  }
+
+  .menu__stage {
+    inset: 0;
+    margin: 0;
+    aspect-ratio: auto;
+    max-width: none;
+    max-height: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Blurred hard enough that the menu painted into the artwork cannot be read
+     behind the real one. */
+  .menu__backdrop {
+    filter: blur(24px) brightness(0.32) saturate(0.8);
+  }
+
+  .menu::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 40%, transparent 20%, rgba(10, 8, 6, 0.65));
+    pointer-events: none;
+  }
+
+  .menu__panel {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: min(380px, calc(100% - 32px));
+    height: auto;
+    margin: auto;
+    gap: 18px;
+    padding: 22px 20px;
+    border-width: 3px;
+    border-radius: 12px;
+    box-shadow:
+      0 0 0 2px #8a5a22,
+      0 16px 40px rgba(0, 0, 0, 0.55);
+  }
+
+  .menu__title {
+    margin-bottom: 4px;
+    font-size: clamp(28px, 9cqw, 40px);
+    /* A thinner stroke at this size: 2px swallows most of a small glyph and the
+       title reads as dark rather than orange. */
+    -webkit-text-stroke-width: 1.5px;
+    filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.35));
+  }
+
+  .menu__items {
+    gap: 10px;
+  }
+
+  .menu-button {
+    font-size: clamp(16px, 5.6cqw, 20px);
+    padding: 10px 14px;
+    border-width: 2px;
+    border-radius: 8px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  .menu-button:hover,
+  .menu-button.is-selected {
+    transform: none;
+  }
+
+  .menu-button.is-selected {
+    box-shadow: 0 0 0 2px #ffe9a8;
+  }
+
+  .menu-button:focus-visible {
+    outline-width: 2px;
+    outline-offset: 2px;
+  }
+}
+
 .game-screen {
   position: relative;
   width: 100vw;
@@ -35,10 +438,28 @@
   height: 100%;
 }
 
+/* Sits over the world, so it needs its own contrast rather than the page accent,
+   which is almost invisible against grass. */
 .back-button {
   position: absolute;
   top: 12px;
   right: 12px;
+  font-size: 14px;
+  padding: 7px 14px;
+  border: 2px solid rgba(255, 233, 168, 0.5);
+  border-radius: 6px;
+  color: #f5f1e8;
+  background: rgba(20, 22, 18, 0.78);
+}
+
+.back-button:hover {
+  border-color: #ffe9a8;
+  background: rgba(20, 22, 18, 0.92);
+}
+
+.back-button:focus-visible {
+  outline: 2px solid #ffe9a8;
+  outline-offset: 2px;
 }
 
 .overlay-message {

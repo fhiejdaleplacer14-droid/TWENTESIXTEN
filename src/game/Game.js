@@ -6,7 +6,7 @@ import { NPC_DEFINITIONS } from '../data/npcs.js'
 import { ENVIRONMENT_SHEET_URLS } from '../data/environmentSprites.js'
 import { PLAYER_SHEET_URL } from '../data/playerSprites.js'
 import { GROUND, PLAYER_START } from '../data/temporaryMap.js'
-import { loadImage } from './Assets.js'
+import { loadSheet } from './Assets.js'
 import { createCamera } from './Camera.js'
 import { createDialogue, wasAdvancePressed } from './Dialogue.js'
 import { createInteraction } from './Interaction.js'
@@ -62,7 +62,7 @@ export function createGame(canvas, input, callbacks = {}) {
   // Loaded sheets, keyed as in SHEET_URLS. Objects skip drawing until their sheet loads.
   const assets = { sheets: {} }
   for (const [key, url] of Object.entries(SHEET_URLS)) {
-    loadImage(url)
+    loadSheet(key, url)
       .then((image) => {
         assets.sheets[key] = image
       })
@@ -241,7 +241,7 @@ export function createGame(canvas, input, callbacks = {}) {
 
       // Layers, back to front: ground, ground decals, then objects, NPCs and the player
       // sorted by base y. Objects are pre-sorted, so the player is slotted in place.
-      world.drawGround(ctx, camera, viewport)
+      world.drawGround(ctx, assets.sheets.court)
       world.drawGroundDecals(ctx, assets)
 
       let playerDrawn = false

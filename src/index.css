@@ -52,14 +52,16 @@
 
 body {
   margin: 0;
+  /* The game fills the window, so anything showing past it (letterboxing around the
+     menu artwork, overscroll) should be dark rather than the default white. */
+  background: #16171d;
 }
 
+/* The game fills the window. This used to be the Vite starter's centred 1126px
+   column, which pushed the canvas sideways and cut 226px off the right of the view
+   on any window wider than that. */
 #root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
+  width: 100%;
   min-height: 100svh;
   display: flex;
   flex-direction: column;

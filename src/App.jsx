@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import EndingScreen from './components/EndingScreen.jsx'
 import GameScreen from './components/GameScreen.jsx'
+import MainMenu from './components/MainMenu.jsx'
 import './App.css'
 
 function App() {
@@ -23,14 +24,7 @@ function App() {
     return <EndingScreen onRestart={startGame} onMenu={() => setScreen('menu')} />
   }
 
-  return (
-    <main className="shell">
-      <h1 className="title">TWENTESIXTEN</h1>
-      <button type="button" className="button" onClick={startGame}>
-        Start
-      </button>
-    </main>
-  )
+  return <MainMenu onStart={startGame} />
 }
 
 export default App

@@ -2,10 +2,12 @@
 // The ground is drawn in world coordinates, so the caller must apply the camera first.
 
 import { NEIGHBORHOOD_LAYOUT } from '../data/neighborhoodLayout.js'
-import { GROUND, WORLD } from '../data/temporaryMap.js'
+import { WORLD } from '../data/temporaryMap.js'
 import { createEnvironmentObject } from './EnvironmentObject.js'
+import { createTerrain } from './Terrain.js'
 
 export function createWorld() {
+  const terrain = createTerrain()
   const placed = NEIGHBORHOOD_LAYOUT.placements.map(createEnvironmentObject)
 
   // Flat decals (e.g. court surface) are drawn under everything else.
@@ -45,25 +47,9 @@ export function createWorld() {
       return entered
     },
 
-    // Tiled ground plus roads, drawing only tiles inside the view.
-    drawGround(ctx, camera, viewport) {
-      const size = GROUND.tileSize
-      ctx.fillStyle = GROUND.base
-      ctx.fillRect(0, 0, WORLD.width, WORLD.height)
-
-      ctx.fillStyle = GROUND.alternate
-      const firstCol = Math.max(0, Math.floor(camera.x / size))
-      const lastCol = Math.min(Math.ceil(WORLD.width / size), Math.ceil((camera.x + viewport.width) / size))
-      const firstRow = Math.max(0, Math.floor(camera.y / size))
-      const lastRow = Math.min(Math.ceil(WORLD.height / size), Math.ceil((camera.y + viewport.height) / size))
-
-      for (let row = firstRow; row < lastRow; row++) {
-        for (let col = firstCol; col < lastCol; col++) {
-          if ((row + col) % 2 === 1) {
-            ctx.fillRect(col * size, row * size, size, size)
-          }
-        }
-      }
+    // Base terrain, then roads on top. `sheet` is the loaded terrain source image.
+    drawGround(ctx, sheet) {
+      terrain.draw(ctx, sheet, WORLD)
 
       for (const road of NEIGHBORHOOD_LAYOUT.roads) {
         ctx.fillStyle = road.color
