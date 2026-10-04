@@ -8,6 +8,7 @@ const PREVENT_DEFAULT_CODES = new Set([
   'ArrowLeft',
   'ArrowRight',
   'Space',
+  'Enter', // stops a focused button from being activated while advancing dialogue
 ])
 
 export function createInput(target = window) {
@@ -42,6 +43,10 @@ export function createInput(target = window) {
     // True only on the frame the key was first pressed.
     wasPressed(code) {
       return pressedThisFrame.has(code)
+    },
+    // Marks a press as handled, so another update step in the same frame cannot see it.
+    consume(code) {
+      pressedThisFrame.delete(code)
     },
     // Called once per rendered frame, after updates have run.
     endFrame() {
