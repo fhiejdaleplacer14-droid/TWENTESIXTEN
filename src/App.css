@@ -1,0 +1,61 @@
+.shell {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 16px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.title {
+  font-size: 48px;
+  letter-spacing: -1px;
+  margin: 0;
+  color: var(--text-h);
+}
+
+.game-screen {
+  position: relative;
+  width: 100vw;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.game-container {
+  width: 100%;
+  height: 100%;
+}
+
+.game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.back-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+}
+
+.button {
+  font: inherit;
+  font-size: 16px;
+  padding: 8px 20px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--accent-border);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
