@@ -1,0 +1,1081 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TWENTESIXTEN Game Documentation</title>
+<style>
+  @page { size: Letter; margin: 0.9in 0.85in 0.9in 0.85in; }
+  :root { --ink: #1b1b1b; --muted: #555; --line: #9a9a9a; --head: #d6d6d6; --accent: #7a4a1f; --fill: #fff8e6; --fillline: #c9a227; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body { font-family: "Liberation Sans", Arimo, Arial, Helvetica, sans-serif; color: var(--ink); font-size: 10.5pt; line-height: 1.5; margin: 0; background: #fff; }
+  h1 { font-size: 17pt; margin: 0 0 6pt; text-transform: uppercase; break-after: avoid; }
+  h2 { font-size: 13pt; margin: 14pt 0 4pt; break-after: avoid; }
+  h3 { font-size: 11pt; margin: 10pt 0 3pt; break-after: avoid; }
+  p { margin: 0 0 7pt; text-align: justify; }
+  ul, ol { margin: 0 0 7pt; padding-left: 18pt; }
+  li { margin-bottom: 2.5pt; }
+  .section { margin-top: 22pt; }
+  .pb { break-before: page; margin-top: 0; }
+  h1 { padding-top: 4pt; border-top: 2px solid #333; }
+  .toc h1, .cover h1 { border-top: none; }
+  .guide { font-size: 9.5pt; color: var(--muted); margin-bottom: 5pt; }
+  .guide b { color: var(--ink); }
+  .resp { font-size: 9.5pt; font-weight: bold; margin: 2pt 0 3pt; }
+  table { width: 100%; border-collapse: collapse; margin: 4pt 0 10pt; font-size: 9.3pt; break-inside: auto; }
+  th, td { border: 1px solid var(--line); padding: 4pt 6pt; vertical-align: top; text-align: left; }
+  th { background: var(--head); font-weight: bold; }
+  tr { break-inside: avoid; }
+  thead { display: table-header-group; }
+  thead tr { break-after: avoid; }
+  .keep { break-inside: avoid; }
+  code, .mono { font-family: "DejaVu Sans Mono", "JetBrains Mono", monospace; font-size: 8.6pt; }
+  pre { font-family: "DejaVu Sans Mono", monospace; font-size: 8pt; line-height: 1.35; background: #f5f3ef; border: 1px solid #ddd; padding: 7pt 9pt; white-space: pre-wrap; break-inside: avoid; margin: 4pt 0 9pt; }
+  .todo { background: var(--fill); border-bottom: 1.5px solid var(--fillline); padding: 0 3pt; color: #6b5300; font-style: italic; }
+  .note { border-left: 3px solid var(--accent); background: #faf6f0; padding: 6pt 9pt; margin: 6pt 0 9pt; font-size: 9.5pt; break-inside: avoid; }
+  figure { margin: 8pt 0 12pt; break-inside: avoid; text-align: center; }
+  figure svg { max-width: 100%; height: auto; }
+  figcaption { font-size: 9pt; color: var(--muted); margin-top: 4pt; font-style: italic; }
+  .shot { border: 1.5px dashed #b39a6a; background: #fbf8f2; height: 2.55in; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #8a7350; font-size: 9.5pt; padding: 0 20pt; }
+  .shot b { font-size: 10.5pt; margin-bottom: 3pt; color: #6a5435; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 10pt 14pt; }
+  .shots figure { margin: 0; }
+  .shots .shot { height: 1.85in; }
+  /* cover */
+  .cover { text-align: center; padding-top: 0.6in; }
+  .cover .t1 { font-size: 22pt; font-weight: bold; margin-bottom: 14pt; }
+  .cover .t2 { font-size: 20pt; font-weight: bold; }
+  .cover .t3 { font-size: 12pt; margin: 22pt 0 26pt; }
+  .cover img { width: 1.15in; height: 1.15in; image-rendering: pixelated; border-radius: 10pt; margin: 4pt 0 14pt; }
+  .cover table { text-align: left; font-size: 10pt; }
+  .cover td:first-child { width: 26%; background: #f0f0f0; }
+  .cover tr:first-child td { background: var(--head); font-weight: bold; }
+  .cover .purpose { text-align: left; font-size: 9.5pt; margin-top: 8pt; }
+  .box { font-family: "DejaVu Sans", sans-serif; }
+  /* toc */
+  .toc ol { list-style: none; padding: 0; columns: 1; }
+  .toc li { display: flex; font-size: 10.5pt; margin-bottom: 5pt; }
+  .toc li span.fill { flex: 1; border-bottom: 1px dotted #999; margin: 0 5pt 4pt; }
+  .small { font-size: 9pt; }
+  .center { text-align: center; }
+  .check li { list-style: none; margin-left: -14pt; }
+  .k { display: inline-block; min-width: 14pt; padding: 0 4pt; border: 1px solid #888; border-bottom-width: 2px; border-radius: 3px; font-family: "DejaVu Sans Mono", monospace; font-size: 8.3pt; background: #f7f7f7; text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- ============================ COVER ============================ -->
+<div class="cover">
+  <div class="t1">GAME DEVELOPMENT PROJECT</div>
+  <div class="t2">Game Documentation</div>
+  <div class="t3">Final Output: 3D Game (2.5D: pixel-art characters in a 3D voxel world)</div>
+  <img src="icon-512.png" alt="TWENTESIXTEN game icon">
+  <table>
+    <tr><td>Project Title:</td><td>TWENTESIXTEN</td></tr>
+    <tr><td>Game Type:</td><td><span class="box">☐</span> 2D &nbsp;&nbsp; <span class="box">☒</span> 3D &nbsp;<span class="small">(2.5D: 2D pixel-art sprites shown in a 3D voxel neighborhood)</span></td></tr>
+    <tr><td>Game Genre:</td><td>Story-driven exploration / narrative adventure with memory mini-games</td></tr>
+    <tr><td>Developer(s):</td><td>Fhiej Dale Placer, Aira Jane Montero, Jomar Ceballos</td></tr>
+    <tr><td>Course / Subject:</td><td><span class="todo">[fill in course / subject]</span></td></tr>
+    <tr><td>Instructor:</td><td><span class="todo">[fill in instructor's name]</span></td></tr>
+    <tr><td>Date Submitted:</td><td><span class="todo">[fill in date]</span></td></tr>
+  </table>
+  <p class="purpose"><b>Purpose of this document:</b> This document records the concept, design, development, implementation, testing, and final output of TWENTESIXTEN, following the Game Development Project Documentation Template. Everything described here is taken from the game's actual source code (repository <span class="mono">fhiejdaleplacer14-droid/fhiejdaleplacer14-droid-TWENTESIXTEN-V2</span>, version 2.0.0). Items highlighted <span class="todo">like this</span> are details only the team can supply and must be filled in before submission.</p>
+</div>
+
+<!-- ============================ TOC ============================ -->
+<div class="section pb toc">
+  <h1>Table of Contents</h1>
+  <ol>
+    <li>1. Introduction<span class="fill"></span></li>
+    <li>2. Game Overview<span class="fill"></span></li>
+    <li>3. Game Objectives<span class="fill"></span></li>
+    <li>4. Game Story / Concept<span class="fill"></span></li>
+    <li>5. Game Features<span class="fill"></span></li>
+    <li>6. Game Mechanics<span class="fill"></span></li>
+    <li>7. Game Design<span class="fill"></span></li>
+    <li>8. User Interface Design<span class="fill"></span></li>
+    <li>9. Development Tools and Technologies<span class="fill"></span></li>
+    <li>10. System Requirements<span class="fill"></span></li>
+    <li>11. Game Architecture / Structure<span class="fill"></span></li>
+    <li>12. Game Implementation<span class="fill"></span></li>
+    <li>13. Game Assets<span class="fill"></span></li>
+    <li>14. Testing and Evaluation<span class="fill"></span></li>
+    <li>15. Problems Encountered and Solutions<span class="fill"></span></li>
+    <li>16. Final Game Screenshots<span class="fill"></span></li>
+    <li>17. Conclusion<span class="fill"></span></li>
+    <li>18. Recommendations / Future Improvements<span class="fill"></span></li>
+    <li>19. References<span class="fill"></span></li>
+    <li>20. Appendices<span class="fill"></span></li>
+    <li>Final Submission Checklist<span class="fill"></span></li>
+  </ol>
+</div>
+
+<!-- ============================ 1 ============================ -->
+<div class="section pb">
+<h1>1. Introduction</h1>
+
+<h2>1.1 Background of the Game</h2>
+<p class="guide"><b>What to include:</b> Explain why the group decided to develop the game. Describe the idea, purpose, inspiration, and intended experience.</p>
+<p>Many Filipinos who grew up in the province remember the same childhood: buying ice candy at the sari-sari store with coins from a biscuit tin, playing basketball on the barangay court until the streetlights came on, flag ceremonies, simbang gabi, pisonet computer shops, and a Lola calling everyone home "before dark." The group wanted to make a game about that time, and about the feeling of going back to it as a grown-up.</p>
+<p>The idea behind TWENTESIXTEN is a simple wish that every child has: to grow up fast. The game shows how that wish looks from the other side. The player returns to Lola's neighborhood (Purok 3) as an adult. Walking around and talking to the neighbors brings back childhood memories, and each memory is played as a small mini-game. The memories slowly lead the player to a tin box buried under an old tree, and to the real reason everyone in the neighborhood is busy preparing chairs, food, and coffee for the evening.</p>
+<p>The intended experience is quiet, warm, and emotional. The game has no enemies, no timer for the whole game, and no game-over screen. The emotional impact comes from the dialogue, the environment, the changing afternoon light, the folk-song music, the small discoveries, and the final reveal. Its closing lines sum up the purpose: <i>"We spent our whole childhood in a hurry to grow up. It was the dumbest thing we ever wished for."</i></p>
+
+<h2>1.2 Project Description</h2>
+<p class="guide"><b>What to include:</b> Provide a short description of the game, including its title, genre, 2D/3D type, main gameplay, number of players, and target platform.</p>
+<table>
+  <thead><tr><th style="width:26%">Item</th><th>Description</th></tr></thead>
+  <tr><td>Title</td><td>TWENTESIXTEN (the year 2016, spelled the way a child would write it; the buried letter is signed "me, twentesixten")</td></tr>
+  <tr><td>Genre</td><td>Story-driven exploration / narrative adventure with ten memory mini-games</td></tr>
+  <tr><td>Type</td><td>3D presentation (2.5D): 2D pixel-art characters drawn as camera-facing sprites inside a 3D voxel neighborhood with real-time lighting and shadows</td></tr>
+  <tr><td>Main gameplay</td><td>Walk around a Filipino provincial barangay, talk to neighbors, run errands, relive childhood memories as mini-games, find Lola's tin box, and reach the ending</td></tr>
+  <tr><td>Players</td><td>Single player</td></tr>
+  <tr><td>Platform</td><td>Web browser (desktop, laptop, phone, tablet). Installable as a Progressive Web App and playable offline after the first visit</td></tr>
+  <tr><td>Languages</td><td>English, Tagalog, and Bisaya (Cebuano), selectable in-game</td></tr>
+  <tr><td>Play time</td><td>About 15 to 20 minutes for one full playthrough (design target)</td></tr>
+</table>
+</div>
+
+<!-- ============================ 2 ============================ -->
+<div class="section">
+<h1>2. Game Overview</h1>
+
+<h2>2.1 Game Concept</h2>
+<p class="guide"><b>What to include:</b> Explain the game in 1–2 paragraphs as if introducing it to someone who has never played it.</p>
+<p>You come home to your Lola's house in a small Filipino barangay for a short visit. It is a sunny afternoon. Lola is outside and asks you to buy vinegar from Ate Cora's sari-sari store, then asks you to look for her old biscuit tin with the dancing ladies on the lid. As you walk around asking the neighbors about it, familiar places bring memories back: the store, the basketball court, the school flagpole, the chapel, the market, the bakery, the plaza fountain, the pisonet, the creek, and Lola's bench. Each memory turns the screen golden, shows the kids you used to play with, and lets you play a short mini-game as your younger self.</p>
+<p>Meanwhile the neighbors keep giving you small errands: glue and nails for Mang Tonyo, a message about chairs for Ma'am Linda, a list for Ate Mila's carinderia, bread from Kuya Berto's panaderia. The afternoon turns golden, then to sunset, then to dusk. When you finally dig up the tin box under the old tree and bring it home, you understand why the whole street has been borrowing chairs and making coffee. The game ends quietly on Lola's bench.</p>
+
+<h2>2.2 Game Genre</h2>
+<p class="guide"><b>What to include:</b> Identify the genre, such as action, adventure, platformer, racing, puzzle, RPG, strategy, simulation, horror, sports, or educational.</p>
+<p><b>Primary genre: Adventure (story-driven exploration / narrative adventure).</b> The player explores a single connected neighborhood, talks to characters, follows objectives, and uncovers a story. It is close to games often called "walking simulators" or "cozy narrative" games, but with more interaction.</p>
+<p><b>Secondary elements:</b> short <b>arcade / timing mini-games</b> (catching, timing, rhythm, dodging, stealth, hide-and-seek), light <b>simulation</b> (neighbors with their own needs and daily routines, traffic, physics objects), and one <b>dialogue-choice</b> scene.</p>
+
+<h2>2.3 Target Players</h2>
+<p class="guide"><b>What to include:</b> Describe the intended age group, users, skill level, and number of players.</p>
+<ul>
+  <li><b>Age group:</b> Teens and adults (about 13 and up). The game has no violence or mature content. Its themes (growing up, family, loss, and a death in the family) are best understood by older players. Younger players can still play it.</li>
+  <li><b>Intended users:</b> Filipino players, especially those who grew up in or visited a provincial barangay, and anyone who enjoys short, emotional story games.</li>
+  <li><b>Skill level:</b> Beginner. Movement and one action button are enough. Mini-games are short and forgiving: losing one never stops the story.</li>
+  <li><b>Number of players:</b> 1 (single player).</li>
+</ul>
+</div>
+
+<!-- ============================ 3 ============================ -->
+<div class="section">
+<h1>3. Game Objectives</h1>
+
+<h2>3.1 General Objective</h2>
+<p class="guide"><b>What to include:</b> State the main objective of the game project.</p>
+<p>To develop a complete, playable, story-driven 3D web game, set in a Filipino provincial neighborhood around 2016, that lets the player explore, interact with neighbors, and relive childhood memories, and that delivers a meaningful emotional ending about Lola and the wish to grow up too fast. The game should be finishable in about 15 to 20 minutes.</p>
+
+<h2>3.2 Specific Objectives</h2>
+<p class="guide"><b>What to include:</b> List 3–5 measurable objectives, such as implementing player controls, enemies, scoring, levels, and interactive environments.</p>
+<ol>
+  <li><b>Player controls on three input types:</b> walking and running with keyboard (WASD/arrow keys), gamepad, and an on-screen touch stick, plus one interact button (E / Space / gamepad A / touch button).</li>
+  <li><b>An interactive neighborhood:</b> one connected map (92 × 50 tiles) with at least 10 landmark locations, 6 story NPCs, 9 neighbors who move around on their own, animals, traffic, and objects that can be pushed or knocked over.</li>
+  <li><b>A data-driven story and quest system:</b> 9 main objectives, 4 side errands, and story flags stored in data files, with automatic saving after every story step and a Continue option.</li>
+  <li><b>Ten playable memory mini-games</b>, each with its own rules and a win and lose result that changes the memory's dialogue.</li>
+  <li><b>A complete ending sequence</b> (wake scene, Lola's letter, bench scene, film-style end credits), with the full game text available in <b>three languages</b> (English, Tagalog, Bisaya).</li>
+</ol>
+</div>
+
+<!-- ============================ 4 ============================ -->
+<div class="section">
+<h1>4. Game Story / Concept</h1>
+
+<h2>4.1 Game Story</h2>
+<p class="guide"><b>What to include:</b> Describe the setting, main character, conflict, goal, major events, and ending.</p>
+<p><b>Setting.</b> Purok 3, a small Filipino provincial barangay. Two streets are joined by three alleys. Along them are Lola's house, Mang Tonyo's vulcanizing shop, the basketball court, Ate Cora's sari-sari store, a pisonet, Aling Nena's house, a carinderia, and a panaderia. North of the upper street are the elementary school, the plaza fountain, an empty lot with an old tree, the chapel, and the palengke (market). A dirt path leads south to the creek. The story takes place over one afternoon, from bright day to golden hour, sunset, and dusk.</p>
+<p><b>Main character.</b> The player (Lola's apo, or grandchild). They grew up in this neighborhood and now live in the city ("Manila"), and have come home only "until Sunday." The player is never named. In memories, they appear as their child self.</p>
+<p><b>Conflict.</b> The real conflict is internal. As a child, the player always wanted to be "big" and spent the whole childhood wishing time would go faster. Now grown up, they have drifted away from home and from Lola. Underneath the day's errands, something is clearly wrong: the neighbors act strangely, Cora refuses payment for the vinegar, and everyone is preparing chairs and food "for tonight."</p>
+<p><b>Goal.</b> Find Lola's lost tin box by asking around the neighborhood and following the memories it brings back.</p>
+<p><b>Major events.</b></p>
+<ol>
+  <li><b>Arrival.</b> Lola greets the player ("Have you eaten?") and sends them to buy vinegar at Cora's store.</li>
+  <li><b>The tin box.</b> Back home, Lola asks the player to find her old biscuit tin. She tells them to walk slowly and to be home before dark.</li>
+  <li><b>Asking around.</b> Cora remembers the tin full of one-peso coins (Memory: the store) and gives the player an old photograph of four kids, taken by someone nobody remembers. Mang Tonyo, Ma'am Linda, and others remember the gang running to the court and the school.</li>
+  <li><b>The errand chain.</b> Neighbors pass the player small favors: glue and nails to Tonyo, a message to Linda about borrowing the school's chairs, a list for Mila's carinderia (pancit, puto, "lots of coffee"), and bread from Berto. Each one quietly hints at a gathering that night.</li>
+  <li><b>Memories return.</b> Visiting old places plays memories as mini-games. After at least six memories and the errands, the player looks at the photo again and remembers a tree. The light turns golden.</li>
+  <li><b>The tree.</b> Under the old tree the player digs up the rusty tin: a marble, three teks cards, and a letter they wrote as a child to their future self ("Buy Lola a new tin. I took this one. Sorry Lola."). The sun begins to set.</li>
+  <li><b>The wake.</b> Walking home at dusk, the player finds every neighbor's chairs set out in front of Lola's house under a tent and string lights. Cora: "We've been looking for you all afternoon." Tonyo: "Our condolences, anak." Lola has passed away.</li>
+</ol>
+<p><b>Ending.</b> Inside, Lola looks like she is resting her eyes after lunch. Taped inside the tin's lid is a second letter in Lola's handwriting: she found the buried letter as well, read it, put it back, and asks only, "Just come home once in a while. Even if it's not before dark." The player sits on the worn bench outside. For a moment Lola appears faintly beside them and whispers, "Have you eaten?", then fades. The closing lines appear, the title comes up, and the credits roll over the team's own footage of kites at dusk. The afternoon with Lola, the dream-like memories, and the bench all come together into the final realization: the player cannot go back to the past they were in such a hurry to leave.</p>
+
+<h2>4.2 Characters</h2>
+<p class="guide"><b>What to include:</b> Document each important character and explain the character's role.</p>
+<table>
+  <thead><tr><th style="width:18%">Character</th><th style="width:20%">Where</th><th>Role in the game</th></tr></thead>
+  <tr><td><b>The player (apo)</b></td><td>Everywhere</td><td>Main character. A grown-up grandchild visiting home. Appears as a child in memories.</td></tr>
+  <tr><td><b>Lola</b></td><td>Outside her house; bench</td><td>The heart of the story. Gives the first quest (vinegar) and the main quest (the tin box). Appears in the chapel, market, and bench memories, and in the ending.</td></tr>
+  <tr><td><b>Ate Cora</b></td><td>Sari-sari store</td><td>Store owner. Gives the vinegar for free, starts the store memory, gives the player the photograph, and starts the errand chain.</td></tr>
+  <tr><td><b>Mang Tonyo</b></td><td>His vulcanizing shop</td><td>Neighbor fixing chairs "for tonight." Remembers the court; sends the player to Ma'am Linda. Says "Our condolences, anak" at the wake.</td></tr>
+  <tr><td><b>Ma'am Linda</b></td><td>Elementary school</td><td>The player's old Grade 4 teacher. Lends the school's chairs and sends a list to Mila.</td></tr>
+  <tr><td><b>Ate Mila</b></td><td>Carinderia</td><td>Cook. Takes the food list for the night and sends the player to Berto.</td></tr>
+  <tr><td><b>Kuya Berto</b></td><td>Panaderia</td><td>Baker. Lola was his customer (suki) for thirty years; he will bring the bread himself. Last step of the errand chain.</td></tr>
+  <tr><td>Aling Rosa, Mang Karding</td><td>Market</td><td>Vendors who remember the time the player got lost in the market.</td></tr>
+  <tr><td>Manong (vendor)</td><td>Fishball cart</td><td>Street food vendor; describes how the street has gone quiet.</td></tr>
+  <tr><td>The kid on the court</td><td>Basketball court</td><td>A boy who plays alone now. Shows how the neighborhood has changed.</td></tr>
+  <tr><td>Neighbors (9)</td><td>Walk around freely</td><td>Aling Nena, Kuya Jun (now owns the pisonet), Ate Liza, Mang Ben, Tita Baby, Manong Rudy, Lolo Ising, Bong, and Jenjen (a child). Each has their own needs, routine, and lines. They make the barangay feel alive and add small story details.</td></tr>
+  <tr><td>The old gang</td><td>Memories only</td><td>Three childhood friends who appear as see-through "ghost" kids during memories.</td></tr>
+  <tr><td>Animals</td><td>Street, empty lot</td><td>A street dog (chases chickens and the ball), Mang Tonyo's cat, chickens, butterflies, and birds.</td></tr>
+</table>
+</div>
+
+<!-- ============================ 5 ============================ -->
+<div class="section">
+<h1>5. Game Features</h1>
+
+<h2>5.1 Major Features</h2>
+<p class="guide"><b>What to include:</b> List and explain the major implemented features.</p>
+<ol>
+  <li><b>3D voxel neighborhood with pixel-art characters.</b> The whole barangay is built in 3D from code (houses with tin roofs, a jeepney, tricycles, the court, the fountain, trees) and lit in real time with shadows. Characters stay as crisp 2D pixel sprites that always face the camera.</li>
+  <li><b>Changing time of day.</b> The light moves through four phases tied to the story: afternoon, golden hour, sunset, and dusk. Street lamps, lit windows, and glow increase as it gets dark.</li>
+  <li><b>Story and quest system.</b> Objectives, side errands, and story flags are driven by a data file. Each NPC answers differently depending on how far the story has gone.</li>
+  <li><b>Ten memory mini-games.</b> Each memory is a short cinematic (golden flash, camera zoom, ghost kids) with a mini-game played as the younger self.</li>
+  <li><b>A living neighborhood.</b> Nine neighbors decide for themselves where to go based on needs (hunger, errands, rest, company, fun, quiet). They walk along the sidewalks, chat with each other, and head home at dusk.</li>
+  <li><b>Traffic and physics.</b> Jeepneys and tricycles drive down the streets, brake and honk, and knock the player down the street if they step in front. Pails, boxes, and a ball can be pushed, kicked, and knocked over. A neighbor comes running to help after an accident.</li>
+  <li><b>Items you can look at.</b> The photograph (Q) and the letter (R) can be opened at any time. The photograph's description changes once the player has found the letter, revealing a new detail.</li>
+  <li><b>Three languages.</b> All text, including shop signs in the 3D world, is available in English, Tagalog, and Bisaya.</li>
+  <li><b>Music and sound made in the browser.</b> Filipino folk songs and all sound effects are synthesized live with the Web Audio API; no recorded audio files are used.</li>
+  <li><b>Automatic save and Continue.</b> Progress is saved after every story step.</li>
+  <li><b>Play anywhere.</b> Keyboard, gamepad, and touch controls; installable and playable offline (PWA).</li>
+  <li><b>Cinematic ending and end credits</b> over the team's own kite footage, with the team's photo stickers.</li>
+</ol>
+
+<h2>5.2 Feature Summary</h2>
+<p class="guide"><b>What to include:</b> Use a table to identify each feature and its purpose.</p>
+<table>
+  <thead><tr><th style="width:28%">Feature</th><th>Description / Purpose</th></tr></thead>
+  <tr><td>3D voxel world + pixel sprites</td><td>Gives a warm, toy-like, nostalgic look while keeping the pixel-art characters.</td></tr>
+  <tr><td>Day-to-dusk lighting</td><td>Shows time running out and builds the mood toward the ending.</td></tr>
+  <tr><td>Story flags, objectives, errands</td><td>Guides the player and controls what each NPC says at each point in the story.</td></tr>
+  <tr><td>10 memory mini-games</td><td>Turns each memory into something the player does, not only reads.</td></tr>
+  <tr><td>Needs-based neighbors (NPC AI)</td><td>Makes the barangay feel lived-in rather than empty.</td></tr>
+  <tr><td>Traffic and physics objects</td><td>Adds humor, life, and things to play with between story beats.</td></tr>
+  <tr><td>Photograph and letter</td><td>Story items that hold clues and the emotional reveal.</td></tr>
+  <tr><td>English / Tagalog / Bisaya</td><td>Lets Filipino players enjoy the story in their own language.</td></tr>
+  <tr><td>Synthesized folk music and sound</td><td>Filipino atmosphere with no audio files or licensing issues.</td></tr>
+  <tr><td>Auto-save and Continue</td><td>A closed browser tab does not lose progress.</td></tr>
+  <tr><td>Keyboard, gamepad, touch; PWA</td><td>Playable on computers and phones, online or offline.</td></tr>
+  <tr><td>Settings menu</td><td>Volume, text speed, visual effects level, language, fullscreen.</td></tr>
+</table>
+</div>
+
+<!-- ============================ 6 ============================ -->
+<div class="section">
+<h1>6. Game Mechanics</h1>
+
+<h2>6.1 Player Controls</h2>
+<p class="guide"><b>What to include:</b> Document keyboard, mouse, controller, touchscreen, or other controls.</p>
+<table>
+  <thead><tr><th style="width:24%">Action</th><th style="width:26%">Keyboard</th><th style="width:25%">Gamepad</th><th>Touchscreen</th></tr></thead>
+  <tr><td>Walk</td><td><span class="k">W</span><span class="k">A</span><span class="k">S</span><span class="k">D</span> or arrow keys</td><td>Left stick or D-pad (analog: slower when half pushed)</td><td>Drag anywhere on the left half (a thumbstick appears)</td></tr>
+  <tr><td>Run (knocks things over)</td><td>Hold <span class="k">Shift</span></td><td>RB / RT</td><td>Not available (the stick walks at analog speed)</td></tr>
+  <tr><td>Talk, look, continue dialogue, mini-game action</td><td><span class="k">E</span> or <span class="k">Space</span></td><td>A (or B)</td><td>E button on the right</td></tr>
+  <tr><td>Look at the photograph</td><td><span class="k">Q</span></td><td>X</td><td>Photo button</td></tr>
+  <tr><td>Read the letter</td><td><span class="k">R</span></td><td>Y</td><td>Letter button</td></tr>
+  <tr><td>Menu: move / change / select / back</td><td>↑ ↓ / ← → / <span class="k">Enter</span> / <span class="k">Esc</span></td><td>D-pad / A / B</td><td>Tap; mouse click also works</td></tr>
+  <tr><td>Skip end credits</td><td><span class="k">Space</span> or <span class="k">E</span></td><td>A</td><td>Tap</td></tr>
+</table>
+<p>Mini-games use the same controls: the walk keys (or stick) to move left/right or steer, and E (or Space / A / tap) as the single action button.</p>
+
+<h2>6.2 Gameplay Rules</h2>
+<p class="guide"><b>What to include:</b> Explain the rules, objectives, winning conditions, losing conditions, and player limitations.</p>
+<ul>
+  <li><b>Objective:</b> Follow the objective shown at the top of the screen, from "Lola is outside. Talk to her." to "Go inside."</li>
+  <li><b>Interacting:</b> When the player stands within reach of a person or object (about two tiles), an "E" prompt appears above it. Pressing E starts the interaction. NPCs say different things depending on story progress.</li>
+  <li><b>Memories:</b> Memories at old places unlock only after Lola asks about the tin box. Each memory can be played once. Its mini-game can be won or lost; <b>both results count as a found memory</b>, and only the dialogue changes.</li>
+  <li><b>Progression rule:</b> To reach the old tree, the player must have (a) the store, court, and school memories, (b) finished the errand chain up to Kuya Berto, and (c) found at least <b>6 of the 10</b> memories.</li>
+  <li><b>Winning condition:</b> Dig up the tin box at the old tree, walk home, and enter Lola's door. This plays the ending. Finding <b>all 10</b> memories adds an extra line to the ending.</li>
+  <li><b>Losing condition:</b> There is no game over. The game is designed so the story can always be finished. Being hit by a jeepney or tricycle only knocks the player down the street for a moment (the game counts the hits and shows the total in the end credits).</li>
+  <li><b>Player limitations:</b> The player cannot walk through buildings, fences, trees, parked vehicles, or stopped jeepneys, and cannot leave the map. Movement is locked during dialogue, memories, and the ending. Story rules play one at a time.</li>
+</ul>
+
+<h2>6.3 Scoring System</h2>
+<p class="guide"><b>What to include:</b> Explain how points, lives, health, rewards, penalties, or other game statistics are calculated.</p>
+<p>TWENTESIXTEN does not use a points score or a health bar, because the goal is the story rather than a high score. Progress and results are tracked as follows:</p>
+<ul>
+  <li><b>Memories found:</b> shown on the HUD as "memories n / 10." This is the main progress statistic.</li>
+  <li><b>Mini-game result:</b> each mini-game has its own counter (coins, shots, notes, lives, time). A win sets a <span class="mono">won_&lt;memory&gt;</span> flag and plays a "won" line; a loss plays a "lost" line. Neither result blocks progress.</li>
+  <li><b>Times run over:</b> each jeepney/tricycle hit adds 1 to a counter that is saved and shown in the end credits.</li>
+  <li><b>Rewards:</b> story items (the photograph, the letter), new objectives and errands, and changes to the light and music.</li>
+</ul>
+<table>
+  <thead><tr><th style="width:24%">Mini-game (memory)</th><th>Win rule</th><th style="width:30%">Lose rule</th></tr></thead>
+  <tr><td>Coin Scramble (store)</td><td>Pick up all 10 rolling coins within 14 seconds</td><td>Time runs out</td></tr>
+  <tr><td>Free Throws (court)</td><td>Make 2 of 3 shots by pressing E when the marker is in the gold zone (zone shrinks, marker speeds up)</td><td>2 misses</td></tr>
+  <tr><td>Flag Song (school)</td><td>Sing at least 12 notes in time; presses off the beat count against you</td><td>Fewer than 12 by the end of the song</td></tr>
+  <tr><td>Stay Awake (chapel)</td><td>Keep your eyes open for 22 seconds by tapping E</td><td>Eyes fully close</td></tr>
+  <tr><td>Lost in the Market</td><td>Find Lola in the crowd within 35 seconds (E shouts and she answers)</td><td>Time runs out; she finds you</td></tr>
+  <tr><td>Hot Pandesal (bakery)</td><td>Catch 10 of 16 falling pandesal in the bag</td><td>All 16 drop with fewer than 10 caught</td></tr>
+  <tr><td>Wishing Coins (fountain)</td><td>Land 2 of 3 coins in the basin (aim side to side, then distance)</td><td>2 coins miss</td></tr>
+  <tr><td>Pisonet</td><td>Dodge falling blocks for 4 "pesos" (4 × 5 seconds) with 3 lives</td><td>All 3 lives lost</td></tr>
+  <tr><td>Creek Sneak (creek)</td><td>Reach the deep water without Aling Ising seeing you; hide behind bushes or the bench</td><td>Seen 3 times</td></tr>
+  <tr><td>Bench Talk (Lola's bench)</td><td>No win/lose: choose one of 3 things to say to Lola; the choice is saved as a flag</td><td>None</td></tr>
+</table>
+<table>
+  <thead><tr><th style="width:30%">Action / Rule</th><th>Control or Description</th></tr></thead>
+  <tr><td>Interact</td><td>E / Space / gamepad A / touch E, within reach of a target</td></tr>
+  <tr><td>Find a memory</td><td>Interact with an old place after Lola's tin-box request; +1 to "memories n / 10"</td></tr>
+  <tr><td>Get hit by traffic</td><td>Player is thrown, lies dazed about 1.4 s, then walks back to the sidewalk; hit counter +1</td></tr>
+  <tr><td>Run</td><td>Shift: 200 px/s instead of 120 px/s; pushes and knocks over loose objects</td></tr>
+</table>
+</div>
+
+<!-- ============================ 7 ============================ -->
+<div class="section">
+<div class="keep">
+<h1>7. Game Design</h1>
+
+<h2>7.1 Game Flow</h2>
+<p class="guide"><b>What to include:</b> Provide a flowchart showing the sequence from the main menu through gameplay, game over, and victory.</p>
+<figure>
+<svg viewBox="0 0 640 760" width="500" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial, sans-serif" font-size="11">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#444"/></marker>
+    <style>.b{fill:#fff;stroke:#444;stroke-width:1.2}.s{fill:#e9f1e4;stroke:#4f7a3a;stroke-width:1.2}.m{fill:#fff4d8;stroke:#b98a1d;stroke-width:1.2}.e{fill:#eadff3;stroke:#6b4f8a;stroke-width:1.2}.d{fill:#e4eef7;stroke:#3d6b93;stroke-width:1.2}.l{stroke:#444;stroke-width:1.2;fill:none;marker-end:url(#ar)}.t{text-anchor:middle}.lab{font-size:9.5px;fill:#555}</style>
+  </defs>
+  <!-- column centres: main 230 -->
+  <rect class="s" x="170" y="8" width="120" height="30" rx="15"/><text class="t" x="230" y="27">Open game (browser)</text>
+  <path class="l" d="M230 38 V54"/>
+  <polygon class="d" points="230,56 320,82 230,108 140,82"/><text class="t" x="230" y="79">First visit?</text><text class="t" x="230" y="92" class="lab">(no language set)</text>
+  <path class="l" d="M320 82 H400"/><text x="335" y="76" class="lab">yes</text>
+  <rect class="b" x="402" y="66" width="140" height="32"/><text class="t" x="472" y="86">Choose language</text>
+  <path class="l" d="M472 98 V132 H292"/>
+  <path class="l" d="M230 108 V120"/><text x="236" y="118" class="lab">no</text>
+  <rect class="b" x="168" y="122" width="124" height="32"/><text class="t" x="230" y="142">MAIN MENU</text>
+  <path class="l" d="M168 138 H112"/>
+  <rect class="b" x="6" y="114" width="104" height="48"/><text class="t" x="58" y="132">Controls /</text><text class="t" x="58" y="145">Settings / Credits</text>
+  <path class="l" d="M230 154 V170"/>
+  <polygon class="d" points="230,172 318,196 230,220 142,196"/><text class="t" x="230" y="200">Save exists?</text>
+  <path class="l" d="M318 196 H400"/><text x="330" y="190" class="lab">Continue</text>
+  <rect class="b" x="402" y="180" width="160" height="32"/><text class="t" x="482" y="200">Load saved afternoon</text>
+  <path class="l" d="M482 212 V250 H292"/>
+  <path class="l" d="M230 220 V236"/><text x="236" y="232" class="lab">Start / New game</text>
+  <rect class="b" x="150" y="238" width="160" height="30"/><text class="t" x="230" y="257">Neighborhood (afternoon)</text>
+  <path class="l" d="M230 268 V282"/>
+  <rect class="b" x="130" y="284" width="200" height="30"/><text class="t" x="230" y="303">Talk to Lola → buy vinegar (Cora)</text>
+  <path class="l" d="M230 314 V328"/>
+  <rect class="b" x="130" y="330" width="200" height="30"/><text class="t" x="230" y="349">Bring vinegar → "find my tin box"</text>
+  <path class="l" d="M230 360 V376"/>
+  <rect class="b" x="110" y="378" width="240" height="44"/><text class="t" x="230" y="396">EXPLORE: talk to NPCs, run errands</text><text class="t" x="230" y="411">(Cora → Tonyo → Linda → Mila → Berto)</text>
+  <path class="l" d="M350 400 H404"/>
+  <rect class="m" x="406" y="372" width="176" height="56"/><text class="t" x="494" y="392">Old place → MEMORY</text><text class="t" x="494" y="406">mini-game: win or lose</text><text class="t" x="494" y="420" class="lab">both count (+1 memory)</text>
+  <path class="l" d="M494 428 V446 H330 V424" />
+  <path class="l" d="M230 422 V440"/>
+  <polygon class="d" points="230,442 340,474 230,506 120,474"/><text class="t" x="230" y="466">store + court + school</text><text class="t" x="230" y="479">+ errands done</text><text class="t" x="230" y="492">+ ≥ 6 memories?</text>
+  <path class="l" d="M120 474 H60 V400 H108"/><text x="66" y="468" class="lab">no</text>
+  <path class="l" d="M230 506 V522"/><text x="236" y="518" class="lab">yes</text>
+  <rect class="b" x="120" y="524" width="220" height="30"/><text class="t" x="230" y="543">"I remember a tree" · golden hour</text>
+  <path class="l" d="M230 554 V568"/>
+  <rect class="b" x="110" y="570" width="240" height="30"/><text class="t" x="230" y="589">Dig at the old tree → tin + letter · sunset</text>
+  <path class="l" d="M230 600 V614"/>
+  <rect class="b" x="120" y="616" width="220" height="30"/><text class="t" x="230" y="635">Walk home → the wake · dusk</text>
+  <path class="l" d="M230 646 V660"/>
+  <rect class="e" x="100" y="662" width="260" height="30"/><text class="t" x="230" y="681">Enter door → Lola's letter → bench ending</text>
+  <path class="l" d="M230 692 V706"/>
+  <rect class="e" x="140" y="708" width="180" height="30" rx="15"/><text class="t" x="230" y="727">End credits → Main menu</text>
+  <path class="l" d="M140 723 H28 V150"/>
+  <text x="400" y="560" class="lab">There is no GAME OVER state:</text>
+  <text x="400" y="573" class="lab">jeepney hits and lost mini-games</text>
+  <text x="400" y="586" class="lab">never end the game. The only</text>
+  <text x="400" y="599" class="lab">"victory" is the ending; the save</text>
+  <text x="400" y="612" class="lab">is cleared and the next play</text>
+  <text x="400" y="625" class="lab">starts a new afternoon.</text>
+</svg>
+<figcaption>Figure 1. Game flowchart, from the main menu through gameplay to the ending (victory). The game has no game-over state.</figcaption>
+</figure>
+</div>
+
+<h2>7.2 Level Design</h2>
+<p class="guide"><b>What to include:</b> For each level, document its name, objective, environment, enemies, obstacles, items, difficulty, and winning condition.</p>
+<p>TWENTESIXTEN has <b>one continuous level</b> (the neighborhood), divided into <b>four story chapters</b> marked by the time of day, plus <b>ten memory mini-games</b> that work as short sub-levels. There are no enemies; obstacles are traffic, solid buildings, and the challenge of each mini-game.</p>
+<table>
+  <thead><tr><th style="width:16%">Chapter</th><th style="width:22%">Objective</th><th style="width:18%">Environment</th><th style="width:20%">Obstacles / items</th><th>Winning condition</th></tr></thead>
+  <tr><td>1. Afternoon: Homecoming</td><td>Talk to Lola, buy vinegar, bring it home</td><td>Bright afternoon; radio playing folk songs at the store</td><td>Traffic. Item: vinegar (story)</td><td>Lola asks for the tin box</td></tr>
+  <tr><td>2. Afternoon: The Tin Box</td><td>Ask around; relive memories; finish errands</td><td>Whole barangay opens up: school, plaza, market, chapel, creek</td><td>Traffic, mini-games. Items: photograph, glue and nails, list</td><td>Store, court, school memories + errands + 6 memories</td></tr>
+  <tr><td>3. Golden hour: The Tree</td><td>Find the tree past the plaza</td><td>Golden light, Dandansoy on guitar</td><td>Item: tin box + letter</td><td>Dig up the tin</td></tr>
+  <tr><td>4. Sunset to dusk: Home</td><td>Bring the tin home, go inside</td><td>Shops close, street lamps on, wake set up at Lola's</td><td>None</td><td>Enter Lola's door → ending</td></tr>
+</table>
+<table>
+  <thead><tr><th style="width:15%">Memory sub-level</th><th style="width:15%">Location</th><th>Objective / mechanic</th><th style="width:18%">Obstacles</th><th style="width:11%">Difficulty</th></tr></thead>
+  <tr><td>Coin Scramble</td><td>Sari-sari store</td><td>Collect 10 coins rolling away along the sidewalk (14 s)</td><td>Coins scatter; time</td><td>Easy</td></tr>
+  <tr><td>Free Throws</td><td>Court</td><td>Timing meter; 2 of 3 shots</td><td>Gold zone shrinks, marker speeds up</td><td>Medium</td></tr>
+  <tr><td>Flag Song</td><td>School flagpole</td><td>Rhythm game: press E on the beat; 12 notes</td><td>Timing window ±0.16 s; wrong presses</td><td>Medium</td></tr>
+  <tr><td>Stay Awake</td><td>Chapel (simbang gabi)</td><td>Tap to keep eyes open for 22 s</td><td>Eyelids close faster over time, in waves</td><td>Easy–Medium</td></tr>
+  <tr><td>Lost in the Market</td><td>Palengke</td><td>Find Lola (lavender clothes, white hair) in a crowd in 35 s</td><td>Crowd of 14 adults</td><td>Medium</td></tr>
+  <tr><td>Hot Pandesal</td><td>Panaderia</td><td>Move a bag to catch 10 of 16 falling breads</td><td>Breads fall in 1.5 s</td><td>Easy</td></tr>
+  <tr><td>Wishing Coins</td><td>Plaza fountain</td><td>Two-step aim (direction, then distance); 2 of 3 coins</td><td>Small basin</td><td>Medium</td></tr>
+  <tr><td>Pisonet</td><td>Pisonet shop</td><td>Arcade dodge game, 4 × 5 s, 3 lives</td><td>Falling blocks</td><td>Medium</td></tr>
+  <tr><td>Creek Sneak</td><td>Creek</td><td>Stealth: reach the deep water unseen; 3 chances</td><td>Aling Ising's view cone (8 tiles)</td><td>Medium–Hard</td></tr>
+  <tr><td>Bench Talk</td><td>Lola's bench</td><td>Dialogue choice (3 options)</td><td>None</td><td>None</td></tr>
+</table>
+
+<h2>7.3 Game Environment</h2>
+<p class="guide"><b>What to include:</b> Describe maps, stages, worlds, backgrounds, lighting, terrain, and other environmental elements.</p>
+<p><b>Map.</b> One map of 92 × 50 tiles (each tile is 32 game pixels). It has two east–west streets (each with sidewalks and a 4-tile road), three connecting alleys, and a dirt path down to the creek.</p>
+<figure>
+<svg viewBox="0 0 640 360" width="600" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial, sans-serif" font-size="10">
+  <rect x="0" y="0" width="640" height="360" fill="#cfe3b4"/>
+  <!-- north blocks -->
+  <rect x="10" y="10" width="620" height="62" fill="#e9ddc4" stroke="#a89a7c"/>
+  <g text-anchor="middle" font-size="10">
+    <rect x="18" y="16" width="100" height="50" fill="#f3e3b9" stroke="#8a7a5a"/><text x="68" y="45">School + flagpole</text>
+    <rect x="128" y="16" width="100" height="50" fill="#f1ead8" stroke="#8a7a5a"/><text x="178" y="45">Plaza + fountain</text>
+    <rect x="238" y="16" width="120" height="50" fill="#bcd69a" stroke="#6d8a4a"/><text x="298" y="40">Empty lot</text><text x="298" y="54">old tree ★</text>
+    <rect x="368" y="16" width="110" height="50" fill="#efe1d0" stroke="#8a7a5a"/><text x="423" y="45">Chapel</text>
+    <rect x="488" y="16" width="136" height="50" fill="#f6d9b0" stroke="#8a7a5a"/><text x="556" y="45">Palengke (market)</text>
+  </g>
+  <!-- upper street -->
+  <rect x="0" y="78" width="640" height="10" fill="#d6d2c8"/><rect x="0" y="88" width="640" height="34" fill="#6f6f72"/><rect x="0" y="122" width="640" height="10" fill="#d6d2c8"/>
+  <text x="320" y="109" fill="#fff" text-anchor="middle">UPPER STREET (jeepney / tricycle lanes)</text>
+  <!-- middle blocks -->
+  <g text-anchor="middle" font-size="9.5">
+    <rect x="10" y="138" width="60" height="50" fill="#f0c9a8" stroke="#8a6a4a"/><text x="40" y="160">Lola's</text><text x="40" y="172">house ♥</text>
+    <rect x="76" y="138" width="56" height="50" fill="#e3d6c2" stroke="#8a6a4a"/><text x="104" y="160">Tonyo's</text><text x="104" y="172">vulcanizing</text>
+    <rect x="148" y="138" width="98" height="50" fill="#c6835a" stroke="#7a4a2a"/><text x="197" y="166" fill="#fff">Basketball court</text>
+    <rect x="252" y="138" width="62" height="50" fill="#f2d27a" stroke="#8a6a4a"/><text x="283" y="160">Sari-sari</text><text x="283" y="172">store</text>
+    <rect x="320" y="138" width="56" height="50" fill="#bcd0e8" stroke="#4a6a8a"/><text x="348" y="166">Pisonet</text>
+    <rect x="390" y="138" width="60" height="50" fill="#e8d0e0" stroke="#8a6a7a"/><text x="420" y="166">Nena's</text>
+    <rect x="464" y="138" width="70" height="50" fill="#f3c6a0" stroke="#8a6a4a"/><text x="499" y="166">Carinderia</text>
+    <rect x="548" y="138" width="80" height="50" fill="#f2e1b8" stroke="#8a6a4a"/><text x="588" y="166">Panaderia</text>
+  </g>
+  <rect x="134" y="132" width="10" height="62" fill="#d6d2c8"/><rect x="378" y="132" width="10" height="62" fill="#d6d2c8"/><rect x="536" y="132" width="10" height="62" fill="#d6d2c8"/>
+  <!-- main street -->
+  <rect x="0" y="194" width="640" height="10" fill="#d6d2c8"/><rect x="0" y="204" width="640" height="34" fill="#6f6f72"/><rect x="0" y="238" width="640" height="10" fill="#d6d2c8"/>
+  <text x="320" y="225" fill="#fff" text-anchor="middle">MAIN STREET (one way, westbound; parked cars)</text>
+  <!-- back -->
+  <rect x="0" y="252" width="640" height="34" fill="#b9a98a"/><text x="320" y="273" text-anchor="middle">back fences and roofs</text>
+  <rect x="96" y="252" width="14" height="40" fill="#c8a878"/>
+  <rect x="0" y="292" width="640" height="18" fill="#8fb36e"/><text x="140" y="305">creek bank (bushes, bench, Aling Ising)</text>
+  <rect x="0" y="310" width="640" height="50" fill="#6f9fb8"/><text x="320" y="340" fill="#fff" text-anchor="middle">CREEK</text>
+</svg>
+<figcaption>Figure 2. Simplified top-down layout of the Purok 3 neighborhood (not to scale), based on <span class="mono">src/world/neighborhood.js</span>.</figcaption>
+</figure>
+<ul>
+  <li><b>Buildings and terrain:</b> houses and shops built from 3D tiles with corrugated tin roofs, awnings, and lit windows; grass, sidewalks with curbs, lower asphalt roads, dirt paths, the creek, and a tree line along the top edge.</li>
+  <li><b>Filipino details:</b> shop signs (SARI-SARI, PISONET, CARINDERIA, PANADERIA, PALENGKE, TODA), the "WELCOME TO PUROK 3" arch, "BAWAL UMIHI DITO" and "BAWAL TUMAMBAY" signs, a jeepney with stripes, tricycles waiting for fares, motorbikes on the sidewalk, potted plants by every door, snacks clipped over the store window, a fishball cart, banderitas, and power lines.</li>
+  <li><b>Lighting:</b> four lighting setups (afternoon, golden, sunset, dusk), each with its own sun direction and color, sky gradient, fog color, street lamp brightness, window glow, and bloom. The game blends smoothly from one to the next. Memories briefly warm the whole scene to gold.</li>
+  <li><b>Moving life:</b> neighbors, a kid shooting hoops, a dog, chickens, butterflies, birds overhead, smoke from the food stalls, leaves falling from the old tree, and traffic with headlights at night.</li>
+  <li><b>Backgrounds:</b> the title screen shows the same 3D street at sunset with the camera slowly drifting along the main street.</li>
+</ul>
+</div>
+
+<!-- ============================ 8 ============================ -->
+<div class="section">
+<h1>8. User Interface Design</h1>
+
+<h2>8.1 Main Menu</h2>
+<p class="guide"><b>What to include:</b> Insert a screenshot or design and explain its functions.</p>
+<figure><div class="shot"><b>Insert screenshot: Main menu</b>The TWENTESIXTEN title over the 3D street at sunset, with the menu on the left.</div><figcaption>Figure 3. Main menu.</figcaption></figure>
+<p>The main menu shows the title "TWENTESIXTEN" in a serif font over a darkened 3D view of the street at sunset. The menu items fade in one by one on the left:</p>
+<ul>
+  <li><b>Start</b> (first play) or <b>Continue</b> and <b>New game</b> (when a save exists). Continue shows the saved objective next to it.</li>
+  <li><b>Controls:</b> a side panel listing keyboard, gamepad, and touch controls.</li>
+  <li><b>Settings:</b> volume (0–10), text speed (slow / normal / fast), effects (low / medium / high), language, and fullscreen.</li>
+  <li><b>Credits:</b> art, font, engine, sound, and music credits.</li>
+</ul>
+<p>On the very first visit, the game asks for a language before anything else ("Language · Wika · Pinulongan"), suggesting one based on the browser language. The menu works with keyboard, mouse, gamepad, and touch. A hint line at the bottom shows the controls for the current panel.</p>
+
+<h2>8.2 Gameplay Interface / HUD</h2>
+<p class="guide"><b>What to include:</b> Document health, score, timer, inventory, controls, minimap, or other interface elements.</p>
+<ul>
+  <li><b>Objective</b> (top): the current main goal, e.g., "Ask around about Lola's tin box."</li>
+  <li><b>Errand</b>: the current side favor, e.g., "errand: Bring the glue and nails to Mang Tonyo."</li>
+  <li><b>Memories counter</b>: "memories n / 10".</li>
+  <li><b>Inventory hints</b>: "Q photograph" and "R letter" appear once the player has those items.</li>
+  <li><b>Interaction prompt</b>: a small floating "E" key over whatever the player can talk to or look at.</li>
+  <li><b>Controls help</b>: a one-line hint at the start ("WASD / arrows to walk, Shift to run, E to talk and look"), hidden after the first interaction.</li>
+  <li><b>Dialogue box</b>: typewriter text with the speaker's name plate and pixel portrait. Narration has no name. Memory lines appear without a box.</li>
+  <li><b>Cinematic bars</b>: black bars at the top and bottom during memories and the ending.</li>
+  <li><b>Mini-game banner and status</b>: instructions at the top (e.g., "Press E when the marker is in the gold") and a live status (coins, shots, notes, lives, seconds).</li>
+  <li><b>Touch controls</b> (phones/tablets): a floating thumbstick on the left, E / photo / letter buttons on the right; hidden until the first touch.</li>
+  <li><b>No health bar, score, timer, or minimap</b>, by design.</li>
+</ul>
+
+<h2>8.3 Other Screens</h2>
+<p class="guide"><b>What to include:</b> Document settings, pause, game over, victory, character selection, inventory, or other screens.</p>
+<table>
+  <thead><tr><th style="width:26%">Screen</th><th>Description</th></tr></thead>
+  <tr><td>Language selection</td><td>Shown on first launch: English, Tagalog, Bisaya.</td></tr>
+  <tr><td>Settings</td><td>Volume, text speed, effects quality, language (the whole menu and the street signs rebuild in the new language), fullscreen. Saved between visits.</td></tr>
+  <tr><td>Controls / Credits panels</td><td>Side panels in the main menu.</td></tr>
+  <tr><td>Photograph view</td><td>Full-screen photo of four kids in front of the store. After the player finds the letter, the description mentions the long shadow of the photographer "wearing a duster" (Lola).</td></tr>
+  <tr><td>Letter view</td><td>The child's letter to their future self (R), and Lola's letter in the ending.</td></tr>
+  <tr><td>Memory cinematic</td><td>Golden flash, camera zoom, see-through childhood friends, then the mini-game.</td></tr>
+  <tr><td>Ending (victory) and end credits</td><td>Bench scene, whispered lines, the title, then film-style credits over kite footage with cast portraits and team stickers. Shows "Times run over: n". Ends with "Thank you for playing." and returns to the menu.</td></tr>
+  <tr><td>Pause / Game over / Character selection</td><td>Not included. The game saves automatically and has no failure state, so a pause or game-over screen was not needed. The main character is fixed by the story.</td></tr>
+</table>
+</div>
+
+<!-- ============================ 9 ============================ -->
+<div class="section">
+<h1>9. Development Tools and Technologies</h1>
+
+<h2>9.1 Software and Tools</h2>
+<p class="guide"><b>What to include:</b> List the game engine, programming language, IDE/code editor, modeling tools, image/audio tools, version control, and other technologies actually used.</p>
+<table>
+  <thead><tr><th style="width:28%">Category</th><th>Tool / Technology (version)</th></tr></thead>
+  <tr><td>Game framework</td><td><b>Phaser 4</b> (4.2.1): game loop, scenes, input (keyboard, gamepad, touch), Arcade Physics, sprites and animations, tweens, UI text</td></tr>
+  <tr><td>3D rendering</td><td><b>Three.js</b> (0.186.1): the 3D voxel neighborhood, lights, shadows, fog, bloom/glow</td></tr>
+  <tr><td>Programming language</td><td><b>JavaScript</b> (ES modules), HTML5, CSS</td></tr>
+  <tr><td>Build tool / dev server</td><td><b>Vite</b> (8.3.4)</td></tr>
+  <tr><td>Runtime / package manager</td><td>Node.js and npm</td></tr>
+  <tr><td>Audio</td><td>Web Audio API (all music and sound effects are synthesized in code)</td></tr>
+  <tr><td>3D models</td><td>Made in code (a custom voxel builder, <span class="mono">src/stage/voxel.js</span>); no external modeling tool</td></tr>
+  <tr><td>Font</td><td>Pixelify Sans via the <span class="mono">@fontsource/pixelify-sans</span> npm package (5.3.0)</td></tr>
+  <tr><td>Offline / install</td><td>Service Worker and Web App Manifest (Progressive Web App)</td></tr>
+  <tr><td>Storage</td><td>Browser localStorage (save game and settings)</td></tr>
+  <tr><td>Version control</td><td>Git and GitHub</td></tr>
+  <tr><td>Code editor / IDE</td><td><span class="todo">[team: fill in, e.g., Visual Studio Code]</span></td></tr>
+  <tr><td>Image / video tools</td><td><span class="todo">[team: fill in the tool used to crop the team stickers and shrink the kite video]</span></td></tr>
+  <tr><td>Other tools (e.g., AI assistants)</td><td><span class="todo">[team: list any AI coding or writing assistants used, if your instructor requires it]</span></td></tr>
+</table>
+
+<h2>9.2 Development Environment</h2>
+<p class="guide"><b>What to include:</b> Describe the development setup and versions where relevant.</p>
+<ul>
+  <li>Project type: Vite + JavaScript web project (<span class="mono">package.json</span> version 2.0.0, <span class="mono">"type": "module"</span>).</li>
+  <li>Dependencies: <span class="mono">phaser ^4.2.1</span>, <span class="mono">three ^0.186.1</span>, <span class="mono">@fontsource/pixelify-sans ^5.3.0</span>; dev dependency <span class="mono">vite ^8.3.4</span>.</li>
+  <li>Scripts: <span class="mono">npm run dev</span> (local server at http://localhost:5173), <span class="mono">npm run build</span> (production build in <span class="mono">dist/</span>), <span class="mono">npm run preview</span>.</li>
+  <li>Build settings: relative base path (<span class="mono">base: './'</span>) so the build works on itch.io or GitHub Pages; Phaser and Three.js are split into their own cached files.</li>
+  <li>Debug mode: adding <span class="mono">?debug</span> to the URL exposes the game objects in the browser console; <span class="mono">?debug&amp;play</span> skips the menu.</li>
+  <li>Operating system and hardware used by the team: <span class="todo">[team: fill in, e.g., Windows 11 laptop]</span>.</li>
+</ul>
+</div>
+
+<!-- ============================ 10 ============================ -->
+<div class="section">
+<h1>10. System Requirements</h1>
+<p class="note">These requirements come from what the game uses (WebGL 3D, Web Audio, ES modules). The team has not measured exact minimum specifications on low-end hardware; the values below are recommendations. The game lowers its own effects quality automatically when it runs slowly.</p>
+
+<h2>10.1 Hardware Requirements</h2>
+<p class="guide"><b>What to include:</b> Specify minimum processor, RAM, storage, graphics, display, controller, or other hardware requirements.</p>
+<table>
+  <thead><tr><th style="width:24%">Component</th><th>Minimum (recommended)</th></tr></thead>
+  <tr><td>Processor</td><td>Dual-core CPU from the last several years (quad-core recommended)</td></tr>
+  <tr><td>RAM</td><td>4 GB (8 GB recommended)</td></tr>
+  <tr><td>Storage</td><td>About 5 MB of game files (engine code, sprite sheets, ending video, icons), cached by the browser; no installation needed</td></tr>
+  <tr><td>Graphics</td><td>Any GPU with WebGL support (integrated graphics work; use "Low" or "Medium" effects on weaker devices; phones start on Medium automatically)</td></tr>
+  <tr><td>Display</td><td>Any size; the game scales a 960 × 540 (16:9) view to fit the window. Landscape orientation on phones</td></tr>
+  <tr><td>Input</td><td>Keyboard, or a standard gamepad (Xbox-style layout), or a touchscreen</td></tr>
+  <tr><td>Audio</td><td>Speakers or headphones (recommended for the music)</td></tr>
+  <tr><td>Internet</td><td>Needed for the first load only; the game then works offline</td></tr>
+</table>
+
+<h2>10.2 Software Requirements</h2>
+<p class="guide"><b>What to include:</b> Specify operating system, runtime, drivers, engine/runtime dependencies, and other software requirements.</p>
+<ul>
+  <li><b>Operating system:</b> any OS with a modern browser: Windows, macOS, Linux, ChromeOS, Android, iOS/iPadOS.</li>
+  <li><b>Browser:</b> a current version of Chrome, Edge, Firefox, or Safari with WebGL, Web Audio, and JavaScript enabled.</li>
+  <li><b>Drivers:</b> up-to-date graphics drivers with WebGL enabled in the browser.</li>
+  <li><b>Runtime dependencies:</b> none for players; Phaser and Three.js are bundled into the game.</li>
+  <li><b>To build from source:</b> Node.js (a version supported by Vite 8) and npm.</li>
+</ul>
+</div>
+
+<!-- ============================ 11 ============================ -->
+<div class="section">
+<h1>11. Game Architecture / Structure</h1>
+
+<h2>11.1 Project Structure</h2>
+<p class="guide"><b>What to include:</b> Show how the game files, scenes/levels, scripts, assets, UI, audio, and managers are organized.</p>
+<pre>TWENTESIXTEN-V2/
+├── index.html            page shell: 3D canvas, game layer, ending film, credits roll
+├── vite.config.js        build settings
+├── package.json
+├── CREDITS.md            third-party asset credits
+├── public/
+│   ├── assets/images/    Kenney sprite sheets (city tiles, characters)
+│   ├── assets/ending/    kites.mp4 + team stickers
+│   ├── icons/            app icons (PWA)
+│   ├── music/            optional local music (not committed)
+│   ├── manifest.webmanifest, sw.js   install + offline support
+└── src/
+    ├── main.js           starts the 3D stage and the Phaser game
+    ├── scenes/           Boot, Backdrop, Title, Neighborhood, UI, Credits
+    ├── systems/          Story, Memory, Dialogue, Daylight, Save, Settings,
+    │                     Lang, Music, Sound, TouchPad, Fonts
+    ├── world/            neighborhood.js (map), World.js (building it),
+    │                     Life.js (NPC AI, animals), Traffic.js, Toys.js (physics props)
+    ├── memories/         MiniGame.js base + 10 mini-games
+    ├── stage/            3D renderer: Stage, Mirror, look (lighting), build,
+    │                     models (voxel props), voxel, paint (textures), settle (optimizer)
+    ├── art/              cast.js (recoloured characters), drawn.js, tiles.js
+    └── data/             story.json, memories.json, residents.json, songs.json,
+                          lang/en.json, lang/tl.json, lang/ceb.json</pre>
+<table>
+  <thead><tr><th style="width:22%">Scene</th><th>Responsibility</th></tr></thead>
+  <tr><td>BootScene</td><td>Loads sprite sheets; builds recolored characters, portraits, and animations</td></tr>
+  <tr><td>BackdropScene</td><td>The slowly drifting street behind the menu</td></tr>
+  <tr><td>TitleScene</td><td>Main menu, language choice, controls, settings, credits</td></tr>
+  <tr><td>NeighborhoodScene</td><td>Main gameplay: player, input, interaction, traffic hits, story zones, saving, ending</td></tr>
+  <tr><td>UIScene</td><td>Everything over the world: HUD, dialogue, photo/letter, cinematic bars, whispers, touch pad</td></tr>
+  <tr><td>CreditsScene</td><td>Film-style end credits over the kite video</td></tr>
+</table>
+
+<h2>11.2 Architecture Diagram</h2>
+<p class="guide"><b>What to include:</b> Include a suitable diagram such as a system architecture diagram, class diagram, or component diagram if applicable.</p>
+<figure>
+<svg viewBox="0 0 640 430" width="610" xmlns="http://www.w3.org/2000/svg" font-family="Liberation Sans, Arial, sans-serif" font-size="10.5">
+  <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#555"/></marker>
+  <style>.c{fill:#fff;stroke:#555;stroke-width:1.1}.g{fill:#f4f1ea;stroke:#a89a7c;stroke-dasharray:4 3}.h{font-weight:bold;font-size:11px}.ln{stroke:#555;stroke-width:1.1;fill:none;marker-end:url(#a2)}.t{text-anchor:middle}</style></defs>
+  <!-- browser -->
+  <rect class="g" x="6" y="6" width="628" height="418" rx="8"/><text x="18" y="24" class="h">Web browser (index.html)</text>
+  <!-- data -->
+  <rect class="g" x="16" y="36" width="196" height="148" rx="6"/><text x="26" y="52" class="h">Data (JSON)</text>
+  <rect class="c" x="26" y="60" width="176" height="22"/><text class="t" x="114" y="75">story.json: rules, flags, zones</text>
+  <rect class="c" x="26" y="86" width="176" height="22"/><text class="t" x="114" y="101">memories.json: mini-game setup</text>
+  <rect class="c" x="26" y="112" width="176" height="22"/><text class="t" x="114" y="127">residents.json: NPC needs</text>
+  <rect class="c" x="26" y="138" width="176" height="36"/><text class="t" x="114" y="153">lang/en, tl, ceb.json:</text><text class="t" x="114" y="166">all text; songs.json</text>
+  <!-- phaser -->
+  <rect class="g" x="226" y="36" width="398" height="236" rx="6"/><text x="236" y="52" class="h">Phaser 4 game (logic, input, UI)</text>
+  <rect class="c" x="238" y="60" width="118" height="26"/><text class="t" x="297" y="77">TitleScene</text>
+  <rect class="c" x="366" y="60" width="122" height="26"/><text class="t" x="427" y="77">NeighborhoodScene</text>
+  <rect class="c" x="498" y="60" width="116" height="26"/><text class="t" x="556" y="77">UIScene (HUD)</text>
+  <path class="ln" d="M356 73 H364"/><path class="ln" d="M488 73 H496"/>
+  <rect class="c" x="238" y="100" width="90" height="24"/><text class="t" x="283" y="116">Story</text>
+  <rect class="c" x="336" y="100" width="90" height="24"/><text class="t" x="381" y="116">Memory</text>
+  <rect class="c" x="434" y="100" width="90" height="24"/><text class="t" x="479" y="116">Daylight</text>
+  <rect class="c" x="532" y="100" width="82" height="24"/><text class="t" x="573" y="116">Dialogue</text>
+  <rect class="c" x="238" y="132" width="90" height="24"/><text class="t" x="283" y="148">Life (NPC AI)</text>
+  <rect class="c" x="336" y="132" width="90" height="24"/><text class="t" x="381" y="148">Traffic</text>
+  <rect class="c" x="434" y="132" width="90" height="24"/><text class="t" x="479" y="148">Toys (physics)</text>
+  <rect class="c" x="532" y="132" width="82" height="24"/><text class="t" x="573" y="148">TouchPad</text>
+  <rect class="c" x="238" y="164" width="186" height="24"/><text class="t" x="331" y="180">10 mini-games (MiniGame base)</text>
+  <rect class="c" x="434" y="164" width="90" height="24"/><text class="t" x="479" y="180">Save / Settings</text>
+  <rect class="c" x="532" y="164" width="82" height="24"/><text class="t" x="573" y="180">Lang</text>
+  <rect class="c" x="238" y="196" width="186" height="24"/><text class="t" x="331" y="212">World + neighborhood (map, solids)</text>
+  <rect class="c" x="434" y="196" width="180" height="24"/><text class="t" x="524" y="212">Arcade Physics (collision)</text>
+  <rect class="c" x="238" y="228" width="186" height="34"/><text class="t" x="331" y="243">Sprites, animations, tweens</text><text class="t" x="331" y="256">(Phaser camera hidden)</text>
+  <rect class="c" x="434" y="228" width="180" height="34"/><text class="t" x="524" y="243">Music + Sound</text><text class="t" x="524" y="256">(Web Audio synthesizer)</text>
+  <path class="ln" d="M212 110 H236"/><text x="214" y="104" font-size="9">reads</text>
+  <!-- three -->
+  <rect class="g" x="226" y="288" width="398" height="96" rx="6"/><text x="466" y="304" class="h">Three.js stage (3D rendering)</text>
+  <rect class="c" x="238" y="312" width="118" height="26"/><text class="t" x="297" y="329">Mirror</text>
+  <rect class="c" x="366" y="312" width="118" height="26"/><text class="t" x="425" y="329">look (4 light hours)</text>
+  <rect class="c" x="494" y="312" width="120" height="26"/><text class="t" x="554" y="329">build / models / voxel</text>
+  <rect class="c" x="238" y="346" width="376" height="28"/><text class="t" x="426" y="364" font-size="9.5">Stage: camera follow, zoom, shake, fade, quality step-down, mesh merging</text>
+  <path class="ln" d="M331 262 V310"/><text x="337" y="279" font-size="9">Mirror copies sprites to 3D every frame</text>
+  <!-- storage -->
+  <rect class="g" x="16" y="196" width="196" height="64" rx="6"/><text x="26" y="212" class="h">Browser services</text>
+  <text x="26" y="230">localStorage (Save / Settings)</text><text x="26" y="246">Service worker (offline)</text>
+    <rect class="g" x="16" y="276" width="196" height="108" rx="6"/><text x="26" y="292" class="h">Assets (public/)</text>
+  <text x="26" y="310">Kenney sheets (PNG)</text><text x="26" y="326">Pixelify Sans font</text><text x="26" y="342">kites.mp4, team stickers</text><text x="26" y="358">icons, manifest</text>
+  <text x="18" y="404" font-size="9.5" fill="#555">Two stacked canvases: Three.js (#world) draws the 3D street; the transparent Phaser</text><text x="18" y="417" font-size="9.5" fill="#555">canvas on top draws the menus, dialogue, and HUD.</text>
+</svg>
+<figcaption>Figure 4. System architecture: data files drive the Phaser game logic, and the Three.js stage renders the world in 3D.</figcaption>
+</figure>
+<p><b>How it fits together.</b> The game logic runs in Phaser using the 2D map's pixel coordinates (32 pixels per tile). Phaser's own camera for the gameplay scene is hidden. After every game step, the Three.js <b>Stage</b> draws the town in 3D, and the <b>Mirror</b> copies each Phaser sprite, shadow, ball, particle, and text label into a matching 3D object (a camera-facing pixel sprite, a voxel model, or a label). This let the team write gameplay as a simple top-down 2D game while players see a lit 3D world.</p>
+</div>
+
+<!-- ============================ 12 ============================ -->
+<div class="section">
+<h1>12. Game Implementation</h1>
+
+<h2>12.1 Player Implementation</h2>
+<p class="guide"><b>What to include:</b> Explain movement, jumping, attack, health, animation, collision, and related implementation.</p>
+<ul>
+  <li><b>Movement:</b> the player is a Phaser Arcade Physics sprite. Walking speed is 120 px/s; running (Shift / RB) is 200 px/s. Keyboard input is normalized so diagonals are not faster. Sticks (touch or gamepad) give analog speed, at least 45% when slightly pushed, with a small dead zone.</li>
+  <li><b>Direction and animation:</b> four directions (up, down, left, right), each with a 3-frame walk (stand + 2 steps). On a diagonal, the sideways frames are used. Running plays the animation 1.7× faster. Footstep sounds play twice per walk cycle.</li>
+  <li><b>Interaction:</b> every frame, the nearest interactable within 58 px is found and an "E" prompt floats over it. Pressing E turns the player toward the target and starts its story rule.</li>
+  <li><b>Getting hit by traffic:</b> the player is thrown along the street in a simple projectile arc (gravity 900 px/s²), spins, bounces once, lies dazed with an "@_@" emote, then walks back to the sidewalk. A neighbor runs over to check on them.</li>
+  <li><b>No jumping, attack, or health</b>: these were not part of the design.</li>
+</ul>
+<pre>// src/scenes/NeighborhoodScene.js (excerpt)
+const WALK = 120;
+const RUN = 200; // with Shift: fast enough to knock things over
+...
+if (left) body.setVelocityX(-pace); else if (right) body.setVelocityX(pace);
+if (up) body.setVelocityY(-pace);   else if (down) body.setVelocityY(pace);
+body.velocity.normalize().scale(pace);</pre>
+
+<h2>12.2 Enemy Implementation</h2>
+<p class="guide"><b>What to include:</b> Explain enemy behavior, movement, AI, attacks, health, and defeat.</p>
+<p>TWENTESIXTEN has <b>no enemies</b>; it is a story game about coming home. The characters with AI and the things the player must avoid are:</p>
+<ul>
+  <li><b>Neighbors (needs-based AI, <span class="mono">Life.js</span>):</b> each of the 9 neighbors has needs (hunger, errand, rest, social, fun, calm) that grow over time at their own rates (set in <span class="mono">residents.json</span>). When free, a neighbor scores every place in the barangay against their strongest need, walks there along a network of sidewalk corners (path-finding over a graph of nodes and edges), stays a while, chats with anyone nearby, then decides again. As the light fades, "home" wins. Their dialogue depends on where they are going or what they are doing.</li>
+  <li><b>Story NPCs:</b> stay near their spot but take a few steps and look around; they stop and turn to face the player during conversations.</li>
+  <li><b>Animals:</b> chickens scatter from whoever approaches; the dog chases chickens and the ball; birds and butterflies drift.</li>
+  <li><b>Traffic (hazard, <span class="mono">Traffic.js</span>):</b> jeepneys and tricycles drive along fixed lanes, one per lane at a time. They brake for anyone in the road (25% of drivers are "reckless" and only honk), raise dust, send loose objects flying, and knock the player down the street on contact. They have solid footprints when stopped and headlights at dusk.</li>
+  <li><b>Mini-game opponents:</b> Aling Ising in Creek Sneak looks up at random times with an 8-tile, about 64° view cone, and the falling blocks in the Pisonet game.</li>
+</ul>
+
+<h2>12.3 Collision Detection</h2>
+<p class="guide"><b>What to include:</b> Explain player/environment, player/enemy, player/item, and other important collisions.</p>
+<ul>
+  <li><b>Player / environment:</b> Arcade Physics collider between the player and a static group of solid rectangles (buildings, fences, walls, trees, stalls, parked vehicles), built from the map data in <span class="mono">neighborhood.js</span>. The player's body is only the feet (10 × 5 px), so the head can overlap walls and it looks natural in the top-down view. World bounds keep the player inside the 92 × 50-tile map.</li>
+  <li><b>Player / traffic:</b> each vehicle checks whether the player's feet are inside its lane area in front of it; if it cannot stop, the player is knocked (see 12.1). Stopped vehicles add a solid footprint.</li>
+  <li><b>Player / objects (Toys.js):</b> pails, boxes, and a ball have footprints, weights, and friction. Walking into a loose object pushes it; running into a pail knocks it over (E stands it back up). The ball is kicked harder when running and bounces off solids. Chairs and the trash bin (basurahan) are fixed.</li>
+  <li><b>Player / interactables:</b> distance check (58 px) to find the nearest person or object to talk to.</li>
+  <li><b>Story zones:</b> rectangles that start a story rule when the player walks in (e.g., arriving home after finding the tin).</li>
+  <li><b>Mini-games:</b> distance and range checks (coins picked up, bread in the bag, coin landing in the basin, blocks hitting the ship, Ising's view cone vs. cover).</li>
+</ul>
+
+<h2>12.4 Game State and Progression</h2>
+<p class="guide"><b>What to include:</b> Explain score, health, lives, level progression, game over, victory, saving/loading, and other state management.</p>
+<p><b>Story system (data-driven).</b> All story state is a set of named flags (e.g., <span class="mono">errand</span>, <span class="mono">suka</span>, <span class="mono">asked</span>, <span class="mono">m_store</span>, <span class="mono">bread_done</span>, <span class="mono">ready</span>, <span class="mono">tin</span>, <span class="mono">arrived</span>). In <span class="mono">story.json</span>, each interactable has an ordered list of rules; the first rule whose conditions hold is played. A rule's <i>steps</i> can show dialogue, play a memory, or open a letter; when it finishes it can set flags, give an item, change the light phase, set the objective or errand, trigger an event, or start the ending. "Derived" rules fire by themselves when their conditions are met (for example, the realization that unlocks the tree).</p>
+<pre>// src/data/story.json (excerpt)
+"tree": [
+  { "if": ["tin"], "steps": [{ "say": "tree_after" }] },
+  { "if": ["ready"],
+    "steps": [{ "say": "tree_dig" }, { "memory": "tree" }, { "say": "tree_found" }],
+    "set": ["tin"], "give": "letter", "phase": "sunset",
+    "event": "setWake", "objective": "bring_tin" },
+  { "steps": [{ "say": "tree" }] }
+]</pre>
+<ul>
+  <li><b>Progression:</b> objectives move through 9 stages (talk_lola → buy_vinegar → bring_vinegar → ask_tin → old_places → more → tree → bring_tin → go_inside). The light moves through afternoon → golden → sunset → dusk.</li>
+  <li><b>Victory:</b> entering Lola's door after arriving home triggers the ending; if all 10 memories were found, an extra line plays. The save is then cleared.</li>
+  <li><b>Game over / lives / health:</b> not used (see 6.2).</li>
+  <li><b>Saving and loading:</b> after every story step, the game writes one save to localStorage: flags, items, objective, errand, memories found, light phase, hit count, and player position (with a version number). "Continue" restores all of it and re-checks any derived rule that was about to fire. If storage is blocked, the game still plays.</li>
+  <li><b>Settings</b> (volume, text speed, effects, language) are saved separately.</li>
+</ul>
+</div>
+
+<!-- ============================ 13 ============================ -->
+<div class="section">
+<h1>13. Game Assets</h1>
+
+<h2>13.1 Asset Inventory</h2>
+<p class="guide"><b>What to include:</b> Document characters, models, sprites, backgrounds, textures, UI assets, music, sound effects, fonts, and other assets.</p>
+<table>
+  <thead><tr><th style="width:22%">Category</th><th>Assets</th></tr></thead>
+  <tr><td>Characters (sprites)</td><td>6 base characters from Kenney's RPG Urban Pack, recolored in code into the full cast: player, Lola, Cora, Tonyo, Linda, Mila, Berto, Rosa, Karding, vendor, kids, 9 neighbors, and the 3 childhood friends. Each has 4 directions × 3 frames and a dialogue portrait.</td></tr>
+  <tr><td>Tiles and textures</td><td>Kenney's Roguelike Modern City sheet (buildings, street, court surface, fences, trees, props), plus textures painted in code: tin roofs, court lines, shop signs in three languages.</td></tr>
+  <tr><td>3D models</td><td>Voxel models built in code: jeepney, tricycle, motorbike, basketball hoop, fountain, trees, stalls, chairs, pails, carts, lamps, banderitas, wake tent and lights.</td></tr>
+  <tr><td>Small sprites</td><td>Drawn in code as pixel rectangles: clay pots, animals' walk cycles, and other details no pack had.</td></tr>
+  <tr><td>Backgrounds</td><td>The live 3D street (title and gameplay), sky gradients for each time of day.</td></tr>
+  <tr><td>UI</td><td>Menus, panels, dialogue box, HUD, photograph and letter views, touch controls, all drawn by the game. App icons for the PWA.</td></tr>
+  <tr><td>Music</td><td>Four traditional Filipino folk songs arranged as note data (<span class="mono">songs.json</span>) and played by the game's synthesizer: Bahay Kubo and Leron Leron Sinta (store radio), Dandansoy (golden hour, guitar), Ili-Ili Tulog Anay (ending, music box).</td></tr>
+  <tr><td>Sound effects</td><td>All synthesized with Web Audio: footsteps, menu blips, page turns, honks, bonk/thud, ball bounce, ambience, melodies.</td></tr>
+  <tr><td>Font</td><td>Pixelify Sans (all on-screen text except the serif title, which uses Georgia / Times New Roman).</td></tr>
+  <tr><td>Video and photos</td><td>Ending footage of kites at dusk (<span class="mono">kites.mp4</span>, 1280 px wide, no sound) and three team photo stickers.</td></tr>
+  <tr><td>Text</td><td>All dialogue, memories, letters, and UI text in English, Tagalog, and Bisaya (about 470 lines each).</td></tr>
+</table>
+
+<h2>13.2 Asset Sources</h2>
+<p class="guide"><b>What to include:</b> Identify whether each asset is original, self-created, free/open-source, purchased, AI-generated, or obtained from an asset library. Provide sources when applicable.</p>
+<table>
+  <thead><tr><th style="width:24%">Asset</th><th style="width:13%">Type</th><th style="width:33%">Source</th><th>Created / Obtained By</th></tr></thead>
+  <tr><td>Roguelike Modern City 2.0 (Kenney)</td><td>Tileset</td><td>Asset library, free, CC0 1.0: kenney.nl/assets/roguelike-modern-city</td><td>Obtained by the team</td></tr>
+  <tr><td>RPG Urban Pack 1.0 (Kenney)</td><td>Character sprites</td><td>Asset library, free, CC0 1.0: kenney.nl/assets/rpg-urban-pack (recolored in code)</td><td>Obtained by the team; recolors made by the team</td></tr>
+  <tr><td>Pixelify Sans</td><td>Font</td><td>Open-source, SIL Open Font License 1.1 (npm @fontsource/pixelify-sans)</td><td>Obtained by the team</td></tr>
+  <tr><td>Bahay Kubo, Leron Leron Sinta, Dandansoy, Ili-Ili Tulog Anay</td><td>Music (melodies)</td><td>Traditional Filipino folk songs, public domain; arranged as data, no recordings</td><td>Arranged by the team</td></tr>
+  <tr><td>Sound effects and instruments</td><td>Audio</td><td>Original, synthesized in code (Web Audio)</td><td>Self-created</td></tr>
+  <tr><td>Voxel 3D models, painted textures, drawn sprites</td><td>Models / textures</td><td>Original, generated by the game's code</td><td>Self-created</td></tr>
+  <tr><td>Kites at dusk video</td><td>Video</td><td>Original footage</td><td>Made by the team</td></tr>
+  <tr><td>Team stickers</td><td>Photos</td><td>Original team photos, cropped</td><td>Made by the team</td></tr>
+  <tr><td>Story, dialogue, translations</td><td>Text</td><td>Original</td><td>Written by the team <span class="todo">[confirm who wrote / translated]</span></td></tr>
+  <tr><td>App icons</td><td>Images</td><td><span class="todo">[team: confirm source]</span></td><td><span class="todo">[team: confirm]</span></td></tr>
+</table>
+<p class="small">Optional: players can place their own music files in <span class="mono">public/music/</span> to replace the radio, golden hour, and ending songs on their own computer. These files are not part of the game and are never committed.</p>
+</div>
+
+<!-- ============================ 14 ============================ -->
+<div class="section">
+<h1>14. Testing and Evaluation</h1>
+<p class="note"><b>Important:</b> The instructor's note asks students not to claim testing they did not do. The test cases below are written from the game's actual features, with the expected results taken from the code. The <b>Actual Result</b> and <b>Status</b> columns must be filled in by the team after running each test.</p>
+
+<h2>14.1 Test Cases</h2>
+<p class="guide"><b>What to include:</b> Create test cases for major game functions and record expected results, actual results, and status.</p>
+<table>
+  <thead><tr><th style="width:4%">No.</th><th style="width:13%">Feature</th><th style="width:27%">Test Procedure</th><th style="width:28%">Expected Result</th><th style="width:18%">Actual Result</th><th style="width:10%">Status</th></tr></thead>
+  <tr><td>1</td><td>First launch</td><td>Open the game in a fresh browser profile</td><td>Language picker appears; choosing a language shows the main menu in that language</td><td></td><td></td></tr>
+  <tr><td>2</td><td>Main menu</td><td>Use ↑/↓, Enter, Esc; open Controls, Settings, Credits</td><td>Each panel opens and closes; hints update</td><td></td><td></td></tr>
+  <tr><td>3</td><td>Settings</td><td>Change volume, text speed, effects, language, fullscreen; reload page</td><td>Changes apply right away and are remembered after reload</td><td></td><td></td></tr>
+  <tr><td>4</td><td>Movement</td><td>Walk with WASD and arrows; hold Shift</td><td>Player walks in 4 directions with animation; runs faster with Shift</td><td></td><td></td></tr>
+  <tr><td>5</td><td>Collision</td><td>Walk into houses, fences, trees, and map edges</td><td>Player is blocked and cannot leave the map</td><td></td><td></td></tr>
+  <tr><td>6</td><td>Interaction</td><td>Walk up to Lola and press E</td><td>"E" prompt shows; Lola's dialogue plays with name and portrait</td><td></td><td></td></tr>
+  <tr><td>7</td><td>Quest start</td><td>Talk to Lola, then Cora, then Lola again</td><td>Objective changes: buy vinegar → bring vinegar → ask about the tin</td><td></td><td></td></tr>
+  <tr><td>8</td><td>Memory + mini-game</td><td>After the tin request, talk to Cora</td><td>Golden memory plays; Coin Scramble starts; photograph is received; memories 1/10</td><td></td><td></td></tr>
+  <tr><td>9</td><td>Mini-game lose</td><td>Deliberately lose any mini-game</td><td>"Lost" line plays; memory still counts; story continues</td><td></td><td></td></tr>
+  <tr><td>10</td><td>Errand chain</td><td>Deliver for Cora → Tonyo → Linda → Mila → Berto</td><td>Errand text updates at each step and clears after Berto</td><td></td><td></td></tr>
+  <tr><td>11</td><td>Unlock the tree</td><td>Find store, court, school + 3 more memories; finish errands</td><td>"Realize" scene; golden light; objective points to the tree</td><td></td><td></td></tr>
+  <tr><td>12</td><td>Items</td><td>Press Q and R after receiving the photo and letter</td><td>Photograph and letter open and close</td><td></td><td></td></tr>
+  <tr><td>13</td><td>Traffic</td><td>Stand in front of a moving jeepney</td><td>It brakes or honks; if it hits, player is thrown, gets up; hit counter +1</td><td></td><td></td></tr>
+  <tr><td>14</td><td>Save / Continue</td><td>Progress past a story step, close the tab, reopen, choose Continue</td><td>Same objective, items, memories, light, and position are restored</td><td></td><td></td></tr>
+  <tr><td>15</td><td>Ending</td><td>Dig up the tin, walk home, enter the door</td><td>Wake scene, Lola's letter, bench scene, title, credits; returns to menu; save cleared</td><td></td><td></td></tr>
+  <tr><td>16</td><td>Languages</td><td>Play a scene in Tagalog and in Bisaya</td><td>Dialogue, HUD, and street signs show the chosen language</td><td></td><td></td></tr>
+  <tr><td>17</td><td>Build</td><td>Run <span class="mono">npm run build</span></td><td>Build finishes with no errors; <span class="mono">dist/</span> is created</td><td></td><td></td></tr>
+</table>
+
+<h2>14.2 Compatibility / Performance Testing</h2>
+<p class="guide"><b>What to include:</b> Where applicable, test the game on different hardware, screen sizes, operating systems, or performance conditions.</p>
+<table>
+  <thead><tr><th style="width:22%">Device / Browser</th><th style="width:22%">Screen / Input</th><th>What to check</th><th style="width:20%">Result</th></tr></thead>
+  <tr><td><span class="todo">[e.g., Windows laptop, Chrome]</span></td><td>Keyboard</td><td>Smooth frame rate on High effects; fullscreen</td><td></td></tr>
+  <tr><td><span class="todo">[e.g., Android phone, Chrome]</span></td><td>Touch, landscape</td><td>Touch stick and buttons; starts on Medium effects</td><td></td></tr>
+  <tr><td><span class="todo">[e.g., iPhone/iPad, Safari]</span></td><td>Touch</td><td>Audio starts after first tap; install to home screen</td><td></td></tr>
+  <tr><td><span class="todo">[e.g., any PC + gamepad]</span></td><td>Gamepad</td><td>Stick, A/X/Y/RB mapping</td><td></td></tr>
+  <tr><td><span class="todo">[any device, offline]</span></td><td>-</td><td>After one visit, game loads with no internet</td><td></td></tr>
+</table>
+<p>Built-in performance handling: if the frame rate stays under 40 FPS for 5 seconds, the game automatically lowers its effects level (shadow quality, glow). Phones start on Medium effects. Static 3D pieces are merged into fewer meshes to reduce draw calls.</p>
+
+<h2>14.3 User Testing</h2>
+<p class="guide"><b>What to include:</b> If required by the instructor, describe who tested the game, what was tested, and what feedback was received.</p>
+<table>
+  <thead><tr><th style="width:22%">Tester</th><th style="width:28%">What was tested</th><th>Feedback received</th><th style="width:20%">Action taken</th></tr></thead>
+  <tr><td><span class="todo">[name / role]</span></td><td></td><td></td><td></td></tr>
+  <tr><td><span class="todo">[name / role]</span></td><td></td><td></td><td></td></tr>
+  <tr><td><span class="todo">[name / role]</span></td><td></td><td></td><td></td></tr>
+</table>
+</div>
+
+<!-- ============================ 15 ============================ -->
+<div class="section">
+<h1>15. Problems Encountered and Solutions</h1>
+<p class="note">The problems below are the ones whose solutions can be seen in the final code. The team should add any other problems they remember from development.</p>
+
+<h2>15.1 Development Problems</h2>
+<p class="guide"><b>What to include:</b> Document important technical, design, asset, performance, or programming problems encountered.</p>
+<ol>
+  <li><b>Showing a 3D world while keeping simple 2D gameplay code.</b> Writing all movement, collision, and NPC logic directly in 3D would be much harder.</li>
+  <li><b>Performance on weaker devices and phones.</b> Real-time shadows and glow are expensive, and the town is made of hundreds of separate pieces, each one a draw call.</li>
+  <li><b>Browsers block audio until the player interacts.</b> Music and sound could not start on page load.</li>
+  <li><b>Music licensing.</b> Popular songs from 2016 would fit the mood but cannot be published without permission.</li>
+  <li><b>Losing progress</b> when the browser tab is closed, and errors when localStorage is blocked (private browsing).</li>
+  <li><b>Supporting three languages</b> without duplicating story logic, including signs drawn inside the 3D world.</li>
+  <li><b>Making the neighborhood feel alive</b> instead of empty, with NPCs that do not just stand still.</li>
+  <li><b>Playing on phones</b> without a keyboard.</li>
+  <li><b>Large ending video</b> slowing down offline caching.</li>
+  <li><b>Story pacing:</b> the player must not reach the ending before the important memories and clues.</li>
+</ol>
+
+<h2>15.2 Solutions</h2>
+<p class="guide"><b>What to include:</b> Explain how each problem was investigated and resolved, including remaining limitations.</p>
+<table>
+  <thead><tr><th style="width:5%">No.</th><th>Solution</th><th style="width:28%">Remaining limitation</th></tr></thead>
+  <tr><td>1</td><td>Kept all gameplay in Phaser's 2D map coordinates and built a "Mirror" that copies every sprite into the Three.js 3D stage each frame.</td><td>Two rendering layers must stay in sync.</td></tr>
+  <tr><td>2</td><td>Added Low/Medium/High effects; phones start on Medium; the game steps down a level automatically below 40 FPS; static pieces are merged per area (<span class="mono">settle.js</span>); trees use bigger voxels.</td><td>Very old devices may still run slowly.</td></tr>
+  <tr><td>3</td><td>Audio starts on the first key press, click, tap, or gamepad button.</td><td>None noticeable.</td></tr>
+  <tr><td>4</td><td>Used public-domain Filipino folk songs, played by a synthesizer from note data. Players may add their own music locally, which is never committed or published.</td><td>Synthesized sound is simpler than recordings.</td></tr>
+  <tr><td>5</td><td>Automatic save after every story beat, with a version number; all storage calls are wrapped so the game still runs when storage is blocked.</td><td>Only one save slot.</td></tr>
+  <tr><td>6</td><td>Story data refers to text only by key; all words live in three language files with English fallback. The menu and 3D signs rebuild when the language changes.</td><td>New text must be added to all three files.</td></tr>
+  <tr><td>7</td><td>Needs-based NPC AI with path-finding along sidewalks, chatting, and going home at dusk; plus animals, traffic, and physics props.</td><td>NPC routines are simple.</td></tr>
+  <tr><td>8</td><td>On-screen thumbstick and buttons that appear on first touch; gamepad support.</td><td>Best in landscape.</td></tr>
+  <tr><td>9</td><td>Video shrunk to 1280 px with no sound, and excluded from the offline cache (streamed instead).</td><td>Ending film needs a connection the first time.</td></tr>
+  <tr><td>10</td><td>Data-driven story rules with conditions (store, court, school, errands, and at least 6 memories) before the tree unlocks.</td><td>-</td></tr>
+</table>
+</div>
+
+<!-- ============================ 16 ============================ -->
+<div class="section pb">
+<h1>16. Final Game Screenshots</h1>
+
+<h2>16.1 Required Screenshots</h2>
+<p class="guide"><b>What to include:</b> Include clear screenshots of the main menu, gameplay, levels, important features, pause menu, game over, victory screen, and other significant screens.</p>
+<p>The game has no pause menu or game-over screen (see 8.3), so the ending and credits serve as the victory screens. Each slot below is labeled with the screenshot to insert.</p>
+<div class="shots">
+  <figure><div class="shot"><b>Language selection</b>First launch</div><figcaption>Figure 5. Language selection (English, Tagalog, Bisaya).</figcaption></figure>
+  <figure><div class="shot"><b>Settings panel</b>Main menu → Settings</div><figcaption>Figure 6. Settings: volume, text speed, effects, language, fullscreen.</figcaption></figure>
+  <figure><div class="shot"><b>Gameplay + HUD</b>Player near Lola's house, afternoon</div><figcaption>Figure 7. Gameplay in the afternoon with objective and HUD.</figcaption></figure>
+  <figure><div class="shot"><b>Dialogue</b>Talking to Lola</div><figcaption>Figure 8. Dialogue box with name plate and portrait.</figcaption></figure>
+  <figure><div class="shot"><b>The photograph</b>Press Q</div><figcaption>Figure 9. The photograph from Ate Cora.</figcaption></figure>
+  <figure><div class="shot"><b>Memory cinematic</b>Golden light with ghost kids</div><figcaption>Figure 10. A memory begins.</figcaption></figure>
+  <figure><div class="shot"><b>Mini-game</b>Free Throws at the court</div><figcaption>Figure 11. Free Throws mini-game.</figcaption></figure>
+  <figure><div class="shot"><b>Mini-game</b>Lost in the Market</div><figcaption>Figure 12. Lost in the Market mini-game.</figcaption></figure>
+  <figure><div class="shot"><b>Golden hour</b>Street in golden light</div><figcaption>Figure 13. Golden hour.</figcaption></figure>
+  <figure><div class="shot"><b>The letter</b>Press R</div><figcaption>Figure 14. The letter found in the tin box.</figcaption></figure>
+  <figure><div class="shot"><b>The wake at dusk</b>Chairs and lights at Lola's</div><figcaption>Figure 15. Dusk: the wake in front of Lola's house.</figcaption></figure>
+  <figure><div class="shot"><b>Ending</b>The bench scene</div><figcaption>Figure 16. Ending on Lola's bench (victory).</figcaption></figure>
+  <figure><div class="shot"><b>End credits</b>Over the kite footage</div><figcaption>Figure 17. End credits with team stickers.</figcaption></figure>
+  <figure><div class="shot"><b>Touch controls</b>On a phone</div><figcaption>Figure 18. Touch controls on a phone.</figcaption></figure>
+</div>
+
+<h2>16.2 Figure Captions</h2>
+<p class="guide"><b>What to include:</b> Give every screenshot a figure number and descriptive caption.</p>
+<table>
+  <thead><tr><th style="width:12%">Figure</th><th>Caption</th></tr></thead>
+  <tr><td>Figure 1</td><td>Game flowchart (Section 7.1)</td></tr>
+  <tr><td>Figure 2</td><td>Neighborhood layout (Section 7.3)</td></tr>
+  <tr><td>Figure 3</td><td>Main menu (Section 8.1)</td></tr>
+  <tr><td>Figure 4</td><td>System architecture diagram (Section 11.2)</td></tr>
+  <tr><td>Figures 5–18</td><td>Final game screenshots, captioned above (Section 16.1)</td></tr>
+</table>
+</div>
+
+<!-- ============================ 17 ============================ -->
+<div class="section">
+<h1>17. Conclusion</h1>
+
+<h2>17.1 Project Summary</h2>
+<p class="guide"><b>What to include:</b> Summarize what was developed and whether the project objectives were achieved.</p>
+<p>The team developed TWENTESIXTEN, a complete story-driven web game set in a Filipino provincial barangay around 2016. The final game has a 3D voxel neighborhood with pixel-art characters and four phases of light; a data-driven story with 9 objectives, 4 errands, and a full ending; 10 memory mini-games; 15+ characters, including neighbors with their own routines; traffic and physics objects; synthesized folk music and sound; automatic saving; keyboard, gamepad, and touch controls; offline play; and full text in English, Tagalog, and Bisaya.</p>
+<table>
+  <thead><tr><th style="width:56%">Specific objective (Section 3.2)</th><th>Status</th></tr></thead>
+  <tr><td>1. Controls on keyboard, gamepad, and touch</td><td>Implemented</td></tr>
+  <tr><td>2. Interactive neighborhood (10+ locations, NPCs, traffic, physics props)</td><td>Implemented</td></tr>
+  <tr><td>3. Data-driven story and quests with auto-save</td><td>Implemented</td></tr>
+  <tr><td>4. Ten memory mini-games with win/lose results</td><td>Implemented</td></tr>
+  <tr><td>5. Ending sequence and three languages</td><td>Implemented</td></tr>
+</table>
+<p class="small">"Implemented" means the feature exists in the source code. Whether each one works correctly is confirmed by the test results in Section 14.</p>
+
+<h2>17.2 Learning Outcomes</h2>
+<p class="guide"><b>What to include:</b> Describe the programming, design, teamwork, debugging, and game-development skills learned.</p>
+<ul>
+  <li><b>Programming:</b> JavaScript modules; using Phaser for scenes, input, and physics; 3D rendering with Three.js (lights, shadows, voxel meshes); Web Audio synthesis; service workers and localStorage.</li>
+  <li><b>Game design:</b> designing a story-first game without combat, pacing a story with objectives and time of day, and creating mini-games that support the emotional theme instead of distracting from it.</li>
+  <li><b>Data-driven design:</b> keeping story rules, mini-game setup, NPC behavior, and text in data files so they can be changed without touching code.</li>
+  <li><b>Debugging and optimization:</b> keeping two rendering layers in sync and improving performance on phones.</li>
+  <li><b>Localization:</b> writing and translating the game into three Philippine languages.</li>
+  <li><b>Teamwork:</b> <span class="todo">[team: describe how the work was divided and what you learned working together]</span></li>
+</ul>
+</div>
+
+<!-- ============================ 18 ============================ -->
+<div class="section">
+<h1>18. Recommendations / Future Improvements</h1>
+
+<h2>18.1 Future Enhancements</h2>
+<p class="guide"><b>What to include:</b> Identify realistic improvements such as additional levels, multiplayer, improved AI, controller support, graphics, sound, optimization, save/load, or leaderboards.</p>
+<ul>
+  <li><b>AI-powered Lola conversation (optional module):</b> let the player type messages to Lola and get natural replies, through a secure server-side endpoint with the API key kept on the server, and with the current scripted dialogue as a fallback when the AI is unavailable.</li>
+  <li><b>More memories and places</b> (e.g., piko, tumbang preso, a birthday, a typhoon day), and use of the Bench Talk choice later in the story.</li>
+  <li><b>A pause menu</b> with settings during gameplay, and a memory gallery for replaying mini-games.</li>
+  <li><b>Recorded sound:</b> recorded ambience (roosters, karaoke, tricycles) and real instruments, where licenses allow.</li>
+  <li><b>Accessibility:</b> remappable keys, larger-text option, and color-blind-friendly cues in mini-games.</li>
+  <li><b>Multiple save slots</b> and a chapter-select after finishing the game.</li>
+  <li><b>Performance:</b> further optimization for low-end phones; a portrait-mode layout.</li>
+  <li><b>More languages</b> (e.g., Ilocano, Hiligaynon) using the same language-file system.</li>
+  <li><b>Achievements or a memories scrapbook</b> instead of a leaderboard, which would fit the game's tone better.</li>
+</ul>
+</div>
+
+<!-- ============================ 19 ============================ -->
+<div class="section">
+<h1>19. References</h1>
+
+<h2>19.1 References</h2>
+<p class="guide"><b>What to include:</b> List documentation, tutorials, articles, asset sources, music, sound effects, images, libraries, and other external resources used. Use the citation style required by the instructor.</p>
+<p class="small"><i>Format shown: APA 7th edition. Change it if your instructor requires another style. Add any tutorials or articles the team used.</i></p>
+<ol class="small">
+  <li>Kenney. (n.d.). <i>Roguelike modern city</i> (Version 2.0) [Asset pack, CC0 1.0]. https://kenney.nl/assets/roguelike-modern-city</li>
+  <li>Kenney. (n.d.). <i>RPG urban pack</i> (Version 1.0) [Asset pack, CC0 1.0]. https://kenney.nl/assets/rpg-urban-pack</li>
+  <li>The Pixelify Sans Project Authors. (n.d.). <i>Pixelify Sans</i> [Font, SIL Open Font License 1.1]. https://github.com/eifetx/Pixelify-Sans</li>
+  <li>Fontsource. (n.d.). <i>@fontsource/pixelify-sans</i> (Version 5.3.0) [npm package]. https://fontsource.org/fonts/pixelify-sans</li>
+  <li>Phaser Studio. (n.d.). <i>Phaser</i> (Version 4.2.1) [Computer software]. https://phaser.io</li>
+  <li>Three.js authors. (n.d.). <i>three.js</i> (Release 0.186.1) [Computer software]. https://threejs.org</li>
+  <li>Vite contributors. (n.d.). <i>Vite</i> (Version 8.3.4) [Computer software]. https://vite.dev</li>
+  <li>MDN Web Docs. (n.d.). <i>Web Audio API</i>. Mozilla. https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API</li>
+  <li>MDN Web Docs. (n.d.). <i>Service Worker API</i>. Mozilla. https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API</li>
+  <li>MDN Web Docs. (n.d.). <i>Window: localStorage property</i>. Mozilla. https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage</li>
+  <li><i>Bahay Kubo</i>, <i>Leron Leron Sinta</i>, <i>Dandansoy</i>, <i>Ili-Ili Tulog Anay</i> [Traditional Filipino folk songs, public domain].</li>
+  <li><span class="todo">[team: add tutorials, articles, or other resources used]</span></li>
+</ol>
+</div>
+
+<!-- ============================ 20 ============================ -->
+<div class="section">
+<h1>20. Appendices</h1>
+
+<h2>20.1 Supporting Materials</h2>
+<p class="guide"><b>What to include:</b> Include source-code excerpts, additional screenshots, flowcharts, diagrams, complete test results, installation instructions, user manual, or other supporting materials.</p>
+
+<h3>Appendix A. Installation Instructions</h3>
+<p><b>To play (no installation):</b> open the game's web link in a modern browser. On a phone, use the browser's "Add to Home Screen" / "Install app" to install it; after one visit it also works offline. Game link: <span class="todo">[team: add the deployed URL, e.g., itch.io / GitHub Pages / Vercel]</span></p>
+<p><b>To run from source code:</b></p>
+<pre>git clone https://github.com/fhiejdaleplacer14-droid/fhiejdaleplacer14-droid-TWENTESIXTEN-V2.git
+cd fhiejdaleplacer14-droid-TWENTESIXTEN-V2
+npm install
+npm run dev        # opens http://localhost:5173
+
+npm run build      # production build in dist/ (upload this folder to host the game)
+npm run preview    # test the production build locally</pre>
+
+<h3>Appendix B. User Manual (Player Instructions)</h3>
+<ol>
+  <li>Open the game. The first time, choose a language.</li>
+  <li>Choose <b>Start</b> (or <b>Continue</b> to resume). Check <b>Controls</b> and <b>Settings</b> if needed.</li>
+  <li>Walk with WASD or the arrow keys (hold Shift to run). On a phone, drag on the left side.</li>
+  <li>When an <b>E</b> appears over someone or something, press E (or Space) to talk or look. Press E again to continue the dialogue.</li>
+  <li>Follow the objective at the top of the screen. Side favors appear as "errand."</li>
+  <li>When a memory starts, read the instructions at the top and use the walk keys and E to play. Winning or losing both count.</li>
+  <li>Press <b>Q</b> to look at the photograph and <b>R</b> to read the letter once you have them.</li>
+  <li>Watch out for jeepneys and tricycles. Getting hit will not end the game, but the credits will count it.</li>
+  <li>The game saves by itself after every story step. Close it anytime and choose Continue later.</li>
+  <li>Try to find all 10 memories before going home. Play time is about 15 to 20 minutes.</li>
+</ol>
+
+<h3>Appendix C. Full Objective and Errand List</h3>
+<table>
+  <thead><tr><th style="width:20%">Key</th><th>Text shown to the player (English)</th></tr></thead>
+  <tr><td>talk_lola</td><td>Lola is outside. Talk to her.</td></tr>
+  <tr><td>buy_vinegar</td><td>Buy vinegar at the sari-sari store.</td></tr>
+  <tr><td>bring_vinegar</td><td>Bring the vinegar home to Lola.</td></tr>
+  <tr><td>ask_tin</td><td>Ask around about Lola's tin box.</td></tr>
+  <tr><td>old_places</td><td>Old places: the store, the court, the school.</td></tr>
+  <tr><td>more</td><td>More is coming back. Walk the rest of the barangay.</td></tr>
+  <tr><td>tree</td><td>There was a tree. Past the plaza.</td></tr>
+  <tr><td>bring_tin</td><td>Bring the tin box home to Lola.</td></tr>
+  <tr><td>go_inside</td><td>Go inside.</td></tr>
+  <tr><td>errand: glue</td><td>Bring the glue and nails to Mang Tonyo.</td></tr>
+  <tr><td>errand: linda</td><td>Tell Ma'am Linda about the chairs.</td></tr>
+  <tr><td>errand: mila</td><td>Bring the list to Ate Mila at the carinderia.</td></tr>
+  <tr><td>errand: berto</td><td>Stop by Kuya Berto at the panaderia.</td></tr>
+</table>
+
+<h3>Appendix D. Source-Code Excerpt: Story Rule Engine</h3>
+<pre>// src/systems/Story.js (excerpt)
+// Each interactable id has an ordered list of rules; the first one whose
+// "if" flags all hold is played. Flags starting with "!" must be unset;
+// "count" asks for at least that many memories found.
+holds(rule) {
+  const all = (rule.if || []).every((f) =>
+    f[0] === '!' ? !this.flags.has(f.slice(1)) : this.flags.has(f));
+  const any = !rule.anyOf || rule.anyOf.some((f) => this.flags.has(f));
+  return all &amp;&amp; any &amp;&amp; (!rule.count || this.found() &gt;= rule.count);
+}
+
+interact(it) {
+  if (this.busy) return;
+  const rules = it.talk ? [{ steps: [{ lines: it.talk() }] }]
+                        : story.rules[it.id] || [{ steps: [{ say: it.id }] }];
+  const rule = rules.find((r) =&gt; this.holds(r));
+  if (rule) this.play(rule, it);
+}</pre>
+
+<h3>Appendix E. Source-Code Excerpt: Saving</h3>
+<pre>// src/systems/Save.js (excerpt)
+const KEY = 'twentesixten.save';
+const VERSION = 2;
+export function writeSave(state) {
+  try {
+    localStorage.setItem(KEY, JSON.stringify({ version: VERSION, ...state }));
+  } catch {
+    // storage blocked: the game still plays, it just won't be there next time
+  }
+}</pre>
+
+<h3>Appendix F. Team</h3>
+<table>
+  <thead><tr><th style="width:35%">Member</th><th>Role / contribution</th></tr></thead>
+  <tr><td>Fhiej Dale Placer</td><td><span class="todo">[fill in role]</span></td></tr>
+  <tr><td>Aira Jane Montero</td><td><span class="todo">[fill in role]</span></td></tr>
+  <tr><td>Jomar Ceballos</td><td><span class="todo">[fill in role]</span></td></tr>
+</table>
+</div>
+
+<!-- ============================ CHECKLIST ============================ -->
+<div class="section pb">
+<h1>Final Submission Checklist</h1>
+<ul class="check">
+  <li><span class="box">☒</span> Complete documentation (PDF)</li>
+  <li><span class="box">☐</span> Final 2D/3D game build or executable <span class="small">(run <span class="mono">npm run build</span>; submit <span class="mono">dist/</span> or the game link)</span></li>
+  <li><span class="box">☐</span> Game source/project files, if required <span class="small">(GitHub repository)</span></li>
+  <li><span class="box">☐</span> Gameplay screenshots <span class="small">(Section 16: insert screenshots)</span></li>
+  <li><span class="box">☒</span> Game flowchart <span class="small">(Figure 1)</span></li>
+  <li><span class="box">☒</span> Game mechanics and controls <span class="small">(Section 6)</span></li>
+  <li><span class="box">☒</span> Development tools and technologies <span class="small">(Section 9; fill in editor/tools)</span></li>
+  <li><span class="box">☒</span> Asset documentation and sources <span class="small">(Section 13)</span></li>
+  <li><span class="box">☐</span> Testing results <span class="small">(Section 14: fill in Actual Result and Status)</span></li>
+  <li><span class="box">☒</span> Problems encountered and solutions <span class="small">(Section 15)</span></li>
+  <li><span class="box">☒</span> Installation instructions <span class="small">(Appendix A)</span></li>
+  <li><span class="box">☒</span> User/player instructions <span class="small">(Appendix B)</span></li>
+  <li><span class="box">☒</span> References <span class="small">(Section 19)</span></li>
+  <li><span class="box">☒</span> Appendices / supporting materials <span class="small">(Section 20)</span></li>
+</ul>
+<p class="note"><b>Instructor Note:</b> Students should document what they actually implemented. Do not claim features, tools, assets, or testing activities that were not actually used or performed.</p>
+</div>
+
+</body>
+</html>
